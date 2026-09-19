@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Watch a missed call become a booked job | C&amp;S Agency</title>
+<meta name="description" content="Every missed call, Instagram message and web enquiry answered in seconds and booked into your calendar. Then we go back through the customers you have already had.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+  /* Same tokens as the main site so this reads as one place, not a bolt-on. */
+  :root{
+    color-scheme: dark;
+    --bg:#05070c;
+    --surface:rgba(255,255,255,.035);
+    --surface-2:rgba(255,255,255,.06);
+    --border:rgba(255,255,255,.08);
+    --border-2:rgba(255,255,255,.12);
+    --text:#fff;
+    --text-2:rgba(255,255,255,.72);
+    --text-3:rgba(255,255,255,.45);
+    --accent:#4f8dff;
+    --accent-soft:#8ab4ff;
+    --good:#34d399;
+    --warn:#fbbf24;
+    --bad:#f87171;
+    --elev-1:0 25px 50px -12px rgba(0,0,0,.55);
+    --radius:16px;
+    --font:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);
+       font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px;}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px;}
+  .eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+           color:var(--accent-soft);margin:0 0 14px;}
+  h1{font-size:clamp(34px,5.6vw,58px);line-height:1.04;letter-spacing:-.03em;font-weight:800;margin:0 0 18px;text-wrap:balance;}
+  h1 em{font-style:normal;color:var(--accent-soft);}
+  h2{font-size:clamp(27px,4vw,40px);line-height:1.1;letter-spacing:-.025em;font-weight:800;margin:0 0 14px;text-wrap:balance;}
+  h2 em{font-style:normal;color:var(--accent-soft);}
+  p{margin:0 0 16px;color:var(--text-2);}
+  .lede{font-size:19px;max-width:60ch;}
+  section{padding:76px 0;}
+  .line{border-top:1px solid var(--border);}
+
+  nav.top{position:sticky;top:0;z-index:40;background:rgba(5,7,12,.82);backdrop-filter:blur(12px);
+          border-bottom:1px solid var(--border);}
+  .nav-in{max-width:1120px;margin:0 auto;padding:13px 22px;display:flex;align-items:center;gap:14px;}
+  .brand{font-weight:800;letter-spacing:-.02em;font-size:18px;}
+  .brand span{color:var(--accent-soft);}
+  .sp{flex:1;}
+  .btn{display:inline-block;background:var(--accent);color:#03060d;font-weight:700;font-size:15.5px;
+       padding:12px 22px;border-radius:12px;text-decoration:none;border:none;cursor:pointer;font-family:var(--font);}
+  .btn:hover{background:var(--accent-soft);}
+  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--border-2);}
+  .btn.sm{padding:9px 16px;font-size:14px;}
+
+  /* hero + the demo itself */
+  .hero{padding:66px 0 40px;}
+  .hero-grid{display:grid;gap:40px;align-items:center;}
+  @media(min-width:940px){.hero-grid{grid-template-columns:1fr 420px;}}
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;}
+  .pill{font-size:13.5px;color:var(--text-2);background:var(--surface);border:1px solid var(--border);
+        padding:7px 13px;border-radius:999px;}
+
+  .phone{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));
+         border:1px solid var(--border-2);border-radius:26px;padding:16px;box-shadow:var(--elev-1);}
+  .phone-top{display:flex;align-items:center;gap:9px;padding:4px 6px 14px;border-bottom:1px solid var(--border);}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--bad);}
+  .dot.g{background:var(--good);}
+  .phone-title{font-size:13.5px;color:var(--text-3);}
+  .feed{min-height:340px;padding:14px 4px 6px;display:flex;flex-direction:column;gap:11px;}
+
+  .ev{display:flex;gap:10px;opacity:0;transform:translateY(8px);animation:in .45s ease forwards;}
+  @keyframes in{to{opacity:1;transform:none;}}
+  .ev .t{font-size:11.5px;color:var(--text-3);width:52px;flex:none;padding-top:9px;
+         font-variant-numeric:tabular-nums;}
+  .bub{flex:1;border-radius:13px;padding:10px 13px;font-size:14.5px;line-height:1.45;border:1px solid var(--border);}
+  .bub.sys{background:rgba(248,113,113,.1);border-color:rgba(248,113,113,.3);color:#fecaca;}
+  .bub.out{background:rgba(79,141,255,.13);border-color:rgba(79,141,255,.35);}
+  .bub.in{background:var(--surface-2);}
+  .bub.win{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.35);color:#a7f3d0;}
+  .bub b{color:#fff;display:block;margin-bottom:3px;font-size:13px;}
+  .bub.win b,.bub.sys b{color:inherit;}
+
+  .tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;}
+  .tab{font-size:13.5px;font-weight:600;padding:8px 14px;border-radius:10px;cursor:pointer;
+       background:var(--surface);border:1px solid var(--border);color:var(--text-2);font-family:var(--font);}
+  .tab[aria-selected="true"]{background:rgba(79,141,255,.16);border-color:var(--accent);color:#fff;}
+  .replay{margin-top:12px;display:flex;align-items:center;gap:12px;}
+  .replay small{color:var(--text-3);font-size:12.5px;}
+
+  /* generic cards */
+  .grid{display:grid;gap:16px;}
+  @media(min-width:760px){.g3{grid-template-columns:repeat(3,1fr);}.g2{grid-template-columns:1fr 1fr;}}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;}
+  .card h3{margin:0 0 8px;font-size:19px;font-weight:700;letter-spacing:-.01em;}
+  .card p{margin:0;font-size:15.5px;}
+  .num{font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--accent-soft);margin-bottom:10px;}
+
+  /* the back-book maths */
+  .maths{display:grid;gap:14px;margin:26px 0 0;}
+  @media(min-width:700px){.maths{grid-template-columns:repeat(3,1fr);}}
+  .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;}
+  .stat .big{font-size:40px;font-weight:800;letter-spacing:-.03em;line-height:1;}
+  .stat .big.blue{color:var(--accent-soft);}
+  .stat .cap{font-size:14px;color:var(--text-2);margin-top:8px;}
+
+  .split{display:grid;gap:16px;}
+  @media(min-width:800px){.split{grid-template-columns:1fr 1fr;}}
+  .them,.us{border-radius:var(--radius);padding:24px;border:1px solid var(--border);}
+  .them{background:var(--surface);}
+  .us{background:rgba(79,141,255,.08);border-color:rgba(79,141,255,.35);}
+  .tag{font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;display:block;}
+  .them .tag{color:var(--text-3);}
+  .us .tag{color:var(--accent-soft);}
+  .them h3,.us h3{margin:0 0 10px;font-size:22px;font-weight:800;letter-spacing:-.02em;}
+  ul.tick{list-style:none;margin:0;padding:0;}
+  ul.tick li{padding:7px 0 7px 26px;position:relative;color:var(--text-2);font-size:15.5px;}
+  ul.tick li::before{content:"";position:absolute;left:0;top:15px;width:11px;height:2px;background:var(--accent);}
+  .them ul.tick li::before{background:var(--text-3);}
+
+  .law{background:linear-gradient(135deg,rgba(251,191,36,.1),rgba(255,255,255,.02));
+       border:1px solid rgba(251,191,36,.3);border-radius:var(--radius);padding:26px;}
+  .law .tag{color:var(--warn);}
+  .law h3{margin:0 0 10px;font-size:23px;font-weight:800;letter-spacing:-.02em;}
+  .law .date{font-size:clamp(30px,5vw,44px);font-weight:800;letter-spacing:-.03em;color:var(--warn);margin:14px 0 6px;line-height:1;}
+
+  .cta{background:linear-gradient(135deg,rgba(79,141,255,.15),rgba(255,255,255,.02));
+       border:1px solid rgba(79,141,255,.35);border-radius:20px;padding:44px 30px;text-align:center;}
+  .cta h2{margin-bottom:12px;}
+  .cta p{max-width:52ch;margin:0 auto 22px;}
+
+  footer{border-top:1px solid var(--border);padding:34px 0 46px;color:var(--text-3);font-size:14px;}
+  footer a{color:var(--text-2);}
+  .note{font-size:13px;color:var(--text-3);margin-top:14px;}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="nav-in">
+    <span class="brand">C&amp;S<span>.</span></span>
+    <span class="sp"></span>
+    <a class="btn sm" href="#talk">Book a call</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">For Australian trades and home services</p>
+      <h1>Watch a missed call turn into <em>a booked job.</em></h1>
+      <p class="lede">You are under a house at 2pm. The phone rings out. That customer rings the next name on the list and you never know it happened.</p>
+      <p class="lede">This answers them in eight seconds, books the job, and tells you about it.</p>
+      <div class="pills">
+        <span class="pill">Missed calls</span>
+        <span class="pill">Instagram</span>
+        <span class="pill">Facebook</span>
+        <span class="pill">Your website</span>
+      </div>
+      <div class="replay" style="margin-top:26px">
+        <a class="btn" href="#talk">Book a call</a>
+        <a class="btn ghost" href="#back">See the part nobody else does</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div class="phone">
+        <div class="phone-top"><span class="dot" id="statusDot"></span><span class="phone-title" id="phoneTitle">Tuesday, 2:14pm</span></div>
+        <div class="feed" id="feed"></div>
+      </div>
+      <div class="replay">
+        <button class="btn ghost sm" id="replay" type="button">Play it again</button>
+        <small id="caption">An example, not a real customer.</small>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="line" id="how">
+  <div class="wrap">
+    <h2>Four places you lose work, all covered.</h2>
+    <p class="lede">A tradesman does not lose jobs because he has no website. He loses them because nobody answered.</p>
+    <div class="grid g3" style="margin-top:30px">
+      <div class="card"><div class="num">01</div><h3>The call you missed</h3><p>A text goes back within seconds. Not an hour later when they have already booked someone else.</p></div>
+      <div class="card"><div class="num">02</div><h3>The message you did not see</h3><p>Instagram and Facebook get answered too. More trade work comes through Facebook than most websites.</p></div>
+      <div class="card"><div class="num">03</div><h3>The quote that went quiet</h3><p>Chased on day three and day eight. Most quotes are never followed up once.</p></div>
+      <div class="card"><div class="num">04</div><h3>The one who did not turn up</h3><p>A reminder the day before and the morning of. Fewer wasted trips across town.</p></div>
+      <div class="card"><div class="num">05</div><h3>Your number stays yours</h3><p>We do not take over your phone line and we do not own your customers. It all stays in your name.</p></div>
+      <div class="card"><div class="num">06</div><h3>Nothing goes out blind</h3><p>You see what it says before it says it. Your name is on the van. It should be your words.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="line" id="back">
+  <div class="wrap">
+    <p class="eyebrow">The part nobody else does</p>
+    <h2>Everyone sells you <em>new</em> customers. Nobody touches the ones you have already had.</h2>
+    <p class="lede">Five years in the trade and you have been inside hundreds of houses. They paid you. They liked you. And you have never contacted one of them again.</p>
+
+    <div class="maths">
+      <div class="stat"><div class="big">~30</div><div class="cap">New enquiries a month, if the advertising is working</div></div>
+      <div class="stat"><div class="big blue">700+</div><div class="cap">People who have already paid you and never heard from you since</div></div>
+      <div class="stat"><div class="big">$0</div><div class="cap">What it costs to contact them. No ad spend, no bidding, no competition</div></div>
+    </div>
+
+    <div class="split" style="margin-top:34px">
+      <div class="them">
+        <span class="tag">Every other agency</span>
+        <h3>Find you strangers</h3>
+        <ul class="tick">
+          <li>Ads that cost more every year</li>
+          <li>People who have never heard of you</li>
+          <li>You are one of three quotes</li>
+          <li>Stop paying and it stops</li>
+        </ul>
+      </div>
+      <div class="us">
+        <span class="tag">What we do as well</span>
+        <h3>Bring back your own</h3>
+        <ul class="tick">
+          <li>They already know your work</li>
+          <li>You have been in their house</li>
+          <li>You are the only one they ring</li>
+          <li>It builds a calendar that repeats</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="note">We go through your job history, work out who is due for what, and get in touch at the right time. Then we show you what came back, in dollars.</p>
+  </div>
+</section>
+
+<section class="line">
+  <div class="wrap">
+    <div class="law">
+      <span class="tag">Queensland, right now</span>
+      <h3>Every home in the state needs interconnected smoke alarms.</h3>
+      <p>Rental properties have needed them since January 2022. Every other house, townhouse and unit has to have them by:</p>
+      <div class="date">1 January 2027</div>
+      <p>Most homeowners have no idea. If you are an electrician with a customer list, that is next year already half booked. We can have every one of them contacted about it this week.</p>
+      <p class="note">Source: Queensland Fire Department and the QBCC. This is the law, not a sales line.</p>
+    </div>
+  </div>
+</section>
+
+<section class="line">
+  <div class="wrap">
+    <h2>How it goes.</h2>
+    <div class="grid g3" style="margin-top:28px">
+      <div class="card"><div class="num">WEEK 1</div><h3>We listen first</h3><p>What you do, where you go, what you charge, what you will not take on. The system only says what you would say.</p></div>
+      <div class="card"><div class="num">WEEK 2</div><h3>It goes live</h3><p>Missed calls, messages and enquiries all covered. You approve everything before it sends to anyone.</p></div>
+      <div class="card"><div class="num">WEEK 3</div><h3>We go back through your list</h3><p>Past customers, sorted by what is due. Then a number each month for what it brought in.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="line" id="talk">
+  <div class="wrap">
+    <div class="cta">
+      <h2>Fifteen minutes, and you will know if it suits you.</h2>
+      <p>No price on this page on purpose. What it costs depends on how big your list is and how much of it is a mess. We will tell you straight on the call.</p>
+      <a class="btn" href="#" id="bookBtn">Book a call</a>
+      <p class="note" style="margin-top:18px">C&amp;S Agency. Cooper and Sophie. Australian, and you will always get one of us on the phone.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    C&amp;S Agency &middot; <a href="https://cnsmarketingaus.com">cnsmarketingaus.com</a><br>
+    The conversation above is an example of how the system works, not a real customer.
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Four channels, one shape: something comes in, nobody is free, it gets answered anyway,
+  // and it ends as a job in the calendar. The timings are the point, so they are shown.
+  var SCENES = {
+    call: {
+      tab:"Missed call", title:"Tuesday, 2:14pm", caption:"An example, not a real customer.",
+      steps:[
+        {t:"2:14", k:"sys", b:"Missed call", x:"0412 884 019. You are under a house and cannot get to the phone."},
+        {t:"2:14", k:"out", b:"Sent automatically, 8 seconds later", x:"Hi, it's Dave from Coastline Plumbing. Sorry I missed you, I'm on a job. What do you need done and whereabouts are you?"},
+        {t:"2:15", k:"in", b:"They reply", x:"Hot water's gone at home in Toormina. Any chance today or tomorrow?"},
+        {t:"2:15", k:"out", b:"Answered from your details", x:"No worries. I've got tomorrow 8am or 1pm free in Toormina. Which suits?"},
+        {t:"2:16", k:"in", b:"They reply", x:"8am is good."},
+        {t:"2:16", k:"win", b:"Booked", x:"Tomorrow 8am, Toormina, hot water. In your calendar, confirmation texted to them, and a reminder goes out tonight."},
+        {t:"2:16", k:"out", b:"You get this", x:"New job booked while you were under the house. Tap to see it."}
+      ]},
+    insta: {
+      tab:"Instagram", title:"Saturday, 7:41pm", caption:"An example, not a real customer.",
+      steps:[
+        {t:"7:41", k:"sys", b:"Instagram message", x:"Someone messages your page on a Saturday night. You see it Monday."},
+        {t:"7:41", k:"in", b:"They ask", x:"Hey do you do bathroom regrouts? What's it roughly cost?"},
+        {t:"7:41", k:"out", b:"Answered in seconds", x:"We do. It depends on the size of the bathroom, so the honest answer is I'd need a quick look. I can come Tuesday morning, free of charge. Want me to pencil it in?"},
+        {t:"7:44", k:"in", b:"They reply", x:"Yes please, Tuesday works."},
+        {t:"7:44", k:"win", b:"Booked", x:"Tuesday 9am quote, address captured, reminder set. You found out on Sunday morning with a coffee."}
+      ]},
+    quote: {
+      tab:"Quote follow-up", title:"Eight days ago", caption:"An example, not a real customer.",
+      steps:[
+        {t:"Day 0", k:"sys", b:"You sent a quote", x:"$4,200 for a re-roof. Then nothing. You do not like chasing people."},
+        {t:"Day 3", k:"out", b:"Sent for you", x:"Hi Mark, just checking you got the quote for the re-roof. Happy to go through anything on it."},
+        {t:"Day 8", k:"out", b:"Sent for you", x:"Hi Mark, no pressure at all. Just let me know either way so I can free up the week if you've gone another way."},
+        {t:"Day 8", k:"in", b:"They reply", x:"Sorry mate, it got buried. Still keen. Can we start the 14th?"},
+        {t:"Day 8", k:"win", b:"$4,200 recovered", x:"A job you had already written off, back on, from two messages you never had to send."}
+      ]},
+    back: {
+      tab:"Your old customers", title:"This month", caption:"An example, not a real customer.",
+      steps:[
+        {t:"", k:"sys", b:"718 past customers", x:"Every one of them paid you once. None of them have heard from you since."},
+        {t:"", k:"out", b:"Worked out from your job history", x:"142 are due for something. Annual services, safety checks, systems old enough to need replacing."},
+        {t:"", k:"out", b:"Sent at the right time, in your words", x:"Hi Sarah, it's Dave from Coastline. We put your hot water system in back in 2019, they usually want a look at around six years. Want me to swing past and check it?"},
+        {t:"", k:"in", b:"They reply", x:"Oh good timing, it's been making a noise. Yes please."},
+        {t:"", k:"win", b:"38 jobs back this quarter", x:"No advertising, no bidding against anyone, and they only ever rang you."}
+      ]}
+  };
+
+  var order = ["call","insta","quote","back"];
+  var current = "call", timers = [];
+
+  function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+
+  function play(key){
+    clearTimers();
+    current = key;
+    var s = SCENES[key];
+    document.getElementById("phoneTitle").textContent = s.title;
+    document.getElementById("caption").textContent = s.caption;
+    document.querySelectorAll("#tabs .tab").forEach(function(b){
+      b.setAttribute("aria-selected", String(b.dataset.k === key));
+    });
+    var feed = document.getElementById("feed");
+    feed.innerHTML = "";
+    var dot = document.getElementById("statusDot");
+    dot.className = "dot";
+
+    s.steps.forEach(function(step, i){
+      timers.push(setTimeout(function(){
+        var row = document.createElement("div");
+        row.className = "ev";
+        var t = document.createElement("span"); t.className = "t"; t.textContent = step.t;
+        var b = document.createElement("div"); b.className = "bub " + step.k;
+        var lab = document.createElement("b"); lab.textContent = step.b;
+        b.appendChild(lab);
+        b.appendChild(document.createTextNode(step.x));
+        row.appendChild(t); row.appendChild(b);
+        feed.appendChild(row);
+        if (step.k === "win") dot.className = "dot g";
+      }, i * 1100));
+    });
+  }
+
+  var tabs = document.getElementById("tabs");
+  order.forEach(function(k){
+    var b = document.createElement("button");
+    b.className = "tab"; b.type = "button"; b.dataset.k = k;
+    b.setAttribute("role","tab"); b.setAttribute("aria-selected", String(k === "call"));
+    b.textContent = SCENES[k].tab;
+    b.onclick = function(){ play(k); };
+    tabs.appendChild(b);
+  });
+  document.getElementById("replay").onclick = function(){ play(current); };
+  document.getElementById("bookBtn").onclick = function(e){
+    e.preventDefault();
+    alert("Booking link goes here once the calendar is connected.");
+  };
+
+  play("call");
+})();
+</script>
+</body>
+</html>
