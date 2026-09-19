@@ -846,7 +846,7 @@
       {t:"5:00",  m:"PM", x:"You knock off and head home.",                     n:0},
       {t:"6:42",  m:"PM", x:"Missed call. Texted back, booked for 8am.",        n:1},
       {t:"9:14",  m:"PM", x:"Instagram message. Price given, quote booked.",    n:2},
-      {t:"11:40", m:"PM", x:"Enquiry off the website. Answered and booked in.", n:3},
+      {t:"11:40", m:"PM", x:"Every light on the street is out. An enquiry lands anyway, answered and booked.", n:3},
       {t:"6:30",  m:"AM", x:"Reminders out to everyone booked in today.",       n:3},
       {t:"7:00",  m:"AM", x:"You pick up your phone. Three jobs already in.",   n:3}
     ];
@@ -877,30 +877,30 @@
       roofY=H*0.60;
       seed=20260920;
       stars=[];
-      for(var i=0;i<90;i++){
-        stars.push({x:rnd()*W, y:rnd()*roofY*0.92, r:rnd()<0.12?1.5:0.9,
-                    ph:rnd()*6.28, sp:0.6+rnd()*1.5});
+      for(var i=0;i<170;i++){
+        var big=rnd();
+        stars.push({x:rnd()*W, y:rnd()*roofY*0.95, r:big<0.07?1.7:big<0.30?1.15:0.75,
+                    ph:rnd()*6.28, sp:0.5+rnd()*1.6, br:0.45+rnd()*0.55});
       }
       // a row of houses along the bottom, each with a couple of windows
       houses=[]; var x=-14;
       while(x<W+20){
-        var w=48+rnd()*46, h=58+rnd()*54, pitch=rnd()<0.6;
+        var w=34+rnd()*34, h=54+rnd()*56, pitch=rnd()<0.62;
         var hs={x:x, w:w, top:H-h, pitch:pitch, peak:pitch?(16+rnd()*14):0, win:[]};
-        var cols=w>78?3:2, rows=h>84?2:1;
+        // each house keeps its own hours: on at dusk, dark by 11:40, back at dawn
+        hs.lives = rnd()<0.62;
+        hs.outAt = 0.20+rnd()*0.22;      // one by one through the evening; the last is out
+                                         // at 0.47, before the clock reaches 11:40 at 0.50
+        hs.onAt  = 0.80+rnd()*0.16;      // a few stir before the sun is up
+        var cols=w>56?3:2, rows=h>82?2:1;
         for(var c=0;c<cols;c++) for(var rw=0;rw<rows;rw++){
-          var ww=11, wh=14;
+          var ww=9, wh=12;
           hs.win.push({ x: hs.x + (w/(cols+1))*(c+1) - ww/2,
-                        y: hs.top + hs.peak + 16 + rw*(wh+12), w:ww, h:wh });
+                        y: hs.top + hs.peak + 14 + rw*(wh+11), w:ww, h:wh });
         }
-        houses.push(hs); x += w + 5 + rnd()*12;
+        houses.push(hs); x += w + 4 + rnd()*9;
       }
-      // pick which houses light up, spread across the street
-      var order=[]; for(var k=0;k<houses.length;k++) order.push(k);
-      lightOrder=[ order[Math.floor(houses.length*0.22)],
-                   order[Math.floor(houses.length*0.58)],
-                   order[Math.floor(houses.length*0.83)] ];
     }
-    var lightOrder=[];
 
     function mix(a,b,t){ return [0,1,2].map(function(i){ return Math.round(a[i]+(b[i]-a[i])*t); }); }
     function rgb(c,al){ return "rgba("+c[0]+","+c[1]+","+c[2]+","+(al==null?1:al)+")"; }
@@ -908,7 +908,7 @@
     function span(v,a,b){ return clamp((v-a)/(b-a),0,1); }
     function ease(t){ return t*t*(3-2*t); }
 
-    var p=0, target=0, lights=[0,0,0], shootAt=-1, t0=performance.now();
+    var p=0, target=0, shootAt=-1, t0=performance.now();
 
     function draw(now){
       var dt=Math.min(0.05,(now-t0)/1000); t0=now;
@@ -928,7 +928,7 @@
         for(var i=0;i<stars.length;i++){
           var st=stars[i];
           var tw=0.55+0.45*Math.sin(now/1000*st.sp+st.ph);
-          ctx.globalAlpha=starA*tw; ctx.fillStyle="#fff";
+          ctx.globalAlpha=starA*tw*st.br; ctx.fillStyle="#fff";
           ctx.beginPath(); ctx.arc(st.x,st.y,st.r,0,6.283); ctx.fill();
         }
         ctx.globalAlpha=1;
@@ -967,14 +967,6 @@
         }
       }
 
-      // how many houses should be lit by now
-      var want=0;
-      for(var q=MOMENTS.length-1;q>=0;q--){ if(p>=q/MOMENTS.length){ want=MOMENTS[q].n; break; } }
-      for(var L=0;L<3;L++){
-        var goal=L<want?1:0;
-        lights[L] += (goal-lights[L])*Math.min(1, dt*3.2);
-      }
-
       // the street
       ctx.fillStyle="#04040A";
       for(var hI=0;hI<houses.length;hI++){
@@ -987,10 +979,18 @@
         } else { ctx.moveTo(hh.x,hh.top); ctx.lineTo(hh.x+hh.w,hh.top); }
         ctx.lineTo(hh.x+hh.w,H); ctx.lineTo(hh.x,H); ctx.closePath(); ctx.fill();
       }
-      // lit windows, drawn after so the glow sits over the roofline
-      for(var LI=0;LI<lightOrder.length;LI++){
-        var lv=lights[LI]; if(lv<0.02) continue;
-        var house=houses[lightOrder[LI]]; if(!house) continue;
+      // lit windows, drawn after so the glow sits over the roofline.
+      // They come on as dusk falls, go out one by one, and every one of them is
+      // dark by 11:40. A few come back on just before the sun does.
+      var dusk=span(p,0.02,0.13);
+      for(var LI=0;LI<houses.length;LI++){
+        var house=houses[LI]; if(!house.lives) continue;
+        var lv;
+        if(p<house.outAt)      lv=dusk;
+        else if(p<house.outAt+0.05) lv=dusk*(1-span(p,house.outAt,house.outAt+0.05));
+        else if(p<house.onAt)  lv=0;
+        else                   lv=span(p,house.onAt,house.onAt+0.06);
+        if(lv<0.02) continue;
         for(var wI=0;wI<house.win.length;wI++){
           var wn=house.win[wI];
           var cx=wn.x+wn.w/2, cy=wn.y+wn.h/2;
