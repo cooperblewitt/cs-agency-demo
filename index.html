@@ -285,6 +285,11 @@
   .card p{margin:0;font-size:15.5px;}
   .card .n{font-family:var(--font-m);font-size:11px;letter-spacing:.16em;color:var(--violet-lt);margin-bottom:12px;}
 
+  .card.gtee{border-color:rgba(52,199,89,.28);background:rgba(52,199,89,.05);}
+  .card.gtee h3{padding-left:26px;position:relative;}
+  .card.gtee h3::before{content:"";position:absolute;left:0;top:6px;width:15px;height:9px;
+    border-left:2.5px solid #4ADE80;border-bottom:2.5px solid #4ADE80;transform:rotate(-45deg);}
+  .card.gtee p{padding-left:26px;}
   .say{font-family:var(--font-d);font-size:clamp(26px,4.2vw,42px);line-height:1.08;letter-spacing:-.035em;
        max-width:18ch;margin:0 0 18px;}
 
@@ -318,6 +323,7 @@
   <div class="nav-in">
     <span class="logo"><span class="bulb"></span>The AFTRDARK Service</span>
     <span class="sp"></span>
+    <a href="#guarantee" style="font-size:14.5px;color:var(--ink-2);text-decoration:none;margin-right:4px">Our guarantee</a>
     <a class="btn sm" href="#talk">Book a call</a>
   </div>
 </nav>
@@ -327,11 +333,10 @@
     <div>
       <p class="eye">For any business that books people in</p>
       <h1>You knock off.<br><span class="glow">It doesn't.</span></h1>
-      <p class="lede">The bookings you lose are not lost while you are working. They are lost at 6:40 on a Friday, on a Sunday night, and every time your hands are busy with the customer in front of you.</p>
-      <p class="lede">The AFTRDARK Service picks up every one of them in under a minute, in your words, and has them in your calendar before you pick your phone back up.</p>
+      <p class="lede">Every call, message and enquiry you miss, answered in under a minute in your words, and booked into your calendar before you pick your phone back up.</p>
       <div class="under" style="margin-top:26px">
         <a class="btn" href="#talk">Book a call</a>
-        <a class="btn ghost" href="#list">See the part nobody else does</a>
+        <a class="btn ghost" href="#guarantee">Our guarantee</a>
       </div>
       <p class="kicker">Missed calls &middot; Instagram &middot; Facebook &middot; Email &middot; Website &middot; Old customers</p>
     </div>
@@ -378,14 +383,12 @@
 <section class="rule">
   <div class="wrap">
     <h2 class="say">A missed call is a booking <span class="glow">someone else just took.</span></h2>
-    <p class="lede">Nobody rings you back at nine at night. The one who answers first gets the work, and it is almost never the one with the best price.</p>
-    <div class="grid g3" style="margin-top:34px">
-      <div class="card"><div class="n">01</div><h3>The call you couldn't take</h3><p>Answered by text in under a minute, every time. By the time you pick your phone back up, they are already booked in.</p></div>
-      <div class="card"><div class="n">02</div><h3>The DM you never saw</h3><p>Instagram, Facebook and email get answered the same way. More work starts in a DM or a local Facebook group than on any website.</p></div>
-      <div class="card"><div class="n">03</div><h3>The price that went quiet</h3><p>Chased on day three and day eight, in your words. Most quotes and price enquiries never get chased once, and plenty of them were a yes waiting to be asked.</p></div>
-      <div class="card"><div class="n">04</div><h3>The no-show</h3><p>A reminder the night before and one the morning of. No more empty chairs, and no more driving across town for a door nobody answers.</p></div>
-      <div class="card"><div class="n">05</div><h3>Your number stays yours</h3><p>We do not take over your line and we never own your customers. If you walk tomorrow, everything stays in your name.</p></div>
-      <div class="card"><div class="n">06</div><h3>Nothing goes out blind</h3><p>You approve every word before it sends. Your name is on the business. It should be your voice coming out of the phone.</p></div>
+    <p class="lede">Whoever answers first gets the job. It is almost never whoever is cheapest.</p>
+    <div class="grid g2" style="margin-top:34px">
+      <div class="card"><h3>The call you couldn't take</h3><p>Texted back in under a minute. They are booked in before you pick your phone up.</p></div>
+      <div class="card"><h3>The message you never saw</h3><p>Instagram, Facebook and email, all answered the same way.</p></div>
+      <div class="card"><h3>The price that went quiet</h3><p>Chased twice, in your words. Most prices never get chased once.</p></div>
+      <div class="card"><h3>The no-show</h3><p>A reminder the night before and the morning of. No more empty chairs.</p></div>
     </div>
   </div>
 </section>
@@ -394,36 +397,47 @@
   <div class="wrap">
     <p class="eye">The part nobody else does</p>
     <h2 class="say">The list you forgot <span class="glow">you had.</span></h2>
-    <p class="lede">Everyone wants to sell you strangers. Meanwhile there are hundreds of people who have already paid you, already sat in your chair or let you in the house, and already know you do good work. They have not heard a word from you since the day they walked out.</p>
+    <p class="lede">Everyone wants to sell you strangers. You already have hundreds of people who paid you once and never heard from you again.</p>
     <div class="stats">
-      <div class="stat"><b>~30</b><span>New enquiries a month, on a good month, with ads running</span></div>
-      <div class="stat"><b class="v">700+</b><span>People who already paid you and never heard from you again</span></div>
-      <div class="stat"><b class="a">$0</b><span>What it costs to reach them. No ads, no bidding, nobody else in the running</span></div>
+      <div class="stat"><b>~30</b><span>New enquiries in a good month, with ads running</span></div>
+      <div class="stat"><b class="v">700+</b><span>People who already paid you</span></div>
+      <div class="stat"><b class="a">$0</b><span>What it costs to reach them</span></div>
     </div>
-    <p class="note" style="margin-top:22px">Rough shape of a service business that has been going ten years, not a promise. We read your own booking history, work out who is due for what, and get in touch at the right time in your words. Then we show you what came back, in dollars. If the list brings back nothing, you will see that just as clearly.</p>
+    <p class="note" style="margin-top:22px">Rough shape of a ten-year-old business, not a promise. We read your own booking history, work out who is due, and get in touch at the right time. Then we show you what came back, in dollars.</p>
   </div>
 </section>
 
+<section class="rule" id="guarantee">
+  <div class="wrap">
+    <p class="eye">Our guarantee</p>
+    <h2 class="say">Four things we put <span class="glow">in writing.</span></h2>
+    <div class="grid g2" style="margin-top:32px">
+      <div class="card gtee"><h3>It books you work in 30 days, or the setup is free</h3><p>If the first month brings you nothing, you pay us nothing to build it. You keep everything we made.</p></div>
+      <div class="card gtee"><h3>No lock-in, ever</h3><p>Month to month. Give us 30 days and walk. Nothing to sign for a year.</p></div>
+      <div class="card gtee"><h3>Your number and your customers stay yours</h3><p>We never take over your line. Leave tomorrow and you take the whole list with you, exported, no argument.</p></div>
+      <div class="card gtee"><h3>You approve every word</h3><p>Nothing goes out under your name until you have read it. That never changes, no matter how long we work together.</p></div>
+    </div>
+  </div>
+</section>
 
 <section class="rule">
   <div class="wrap">
     <h2 class="say">Three weeks to switch on. <span class="glow">Then we run it with you.</span></h2>
     <div class="grid g3" style="margin-top:32px">
-      <div class="card"><div class="n">WEEK ONE</div><h3>We learn your business</h3><p>What you do, what you charge, how you like to be booked, and what you will not take on. It only ever says what you would say.</p></div>
-      <div class="card"><div class="n">WEEK TWO</div><h3>Lights on</h3><p>Calls, DMs and website enquiries covered, day and night, weekends included. You approve every message before a single one goes out.</p></div>
-      <div class="card"><div class="n">WEEK THREE</div><h3>We open the old list</h3><p>Every past customer and client sorted by what they are due for, then worked through a batch at a time.</p></div>
+      <div class="card"><div class="n">WEEK ONE</div><h3>We learn your business</h3><p>What you do, what you charge, how you like to be booked.</p></div>
+      <div class="card"><div class="n">WEEK TWO</div><h3>Lights on</h3><p>Calls, messages and enquiries covered, day and night, weekends too.</p></div>
+      <div class="card"><div class="n">WEEK THREE</div><h3>We open the old list</h3><p>Past customers sorted by what they are due for, a batch at a time.</p></div>
     </div>
     <div class="mgmt">
       <p class="eye" style="color:var(--violet-lt)">And every month after that</p>
       <h3>We stay in it every week, keeping it sharp.</h3>
       <ul>
-        <li><b>We read the real conversations.</b> Every week. Anything answered badly gets fixed while it still matters.</li>
-        <li><b>We rewrite until it lands.</b> Wording people ignore gets replaced. A question that keeps coming up gets its own answer.</li>
-        <li><b>We keep it current.</b> New service, new price, a staff change, a week closed over Christmas. Tell us and it's in the same day.</li>
-        <li><b>We keep the old list moving.</b> A fresh batch goes out every month, so the list keeps earning long after setup.</li>
-        <li><b>You get a report.</b> What came in, what got booked, and what it was worth. In dollars, every month.</li>
+        <li><b>We read the real conversations</b> and fix anything answered badly.</li>
+        <li><b>We rewrite until it lands.</b> Wording people ignore gets replaced.</li>
+        <li><b>We keep it current.</b> New price, new service, a week closed over Christmas.</li>
+        <li><b>You get a number every month</b> for exactly what it brought back.</li>
       </ul>
-      <p class="note">Your prices move, your services change, and the wording that worked in March goes flat by spring. Keeping it sharp is the job, and it is what the monthly pays for.</p>
+      <p class="note">Your prices move and your services change. Keeping it sharp is the job, and it is what the monthly pays for.</p>
     </div>
   </div>
 </section>
@@ -432,9 +446,9 @@
   <div class="wrap">
     <div class="cta">
       <h2>Fifteen minutes and you'll know.</h2>
-      <p>No price on this page on purpose. It depends on the size of your old list and the state of it. You get a straight number on the call, not a proposal three days later. Worst case, you hang up knowing exactly how much work you have been leaving on the table.</p>
+      <p>You get a straight number on the call, not a proposal three days later. Worst case, you hang up knowing exactly how much work you have been leaving on the table.</p>
       <a class="btn" href="#" id="book">Book a call</a>
-      <p class="note" style="margin-top:20px">The AFTRDARK Service. Australian. Trades, salons, clinics, studios. You will always get a person on the phone.</p>
+      <p class="note" style="margin-top:20px">The AFTRDARK Service. Australian. Trades, salons, clinics, studios.</p>
     </div>
   </div>
 </section>
