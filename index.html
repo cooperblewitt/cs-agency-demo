@@ -59,6 +59,18 @@
         box-shadow:0 0 0 0 rgba(245,165,36,.55);animation:pulse 2.6s infinite;}
   @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(245,165,36,0)}100%{box-shadow:0 0 0 0 rgba(245,165,36,0)}}
   .sp{flex:1}
+  .logo .short{display:none;}
+  .navlink{font-size:14.5px;color:var(--ink-2);text-decoration:none;white-space:nowrap;}
+  .navlink:hover{color:var(--ink);}
+  /* Three things will not fit across a phone. Shorten the name, drop the link. */
+  @media (max-width:600px){
+    .nav-in{padding:11px 16px;gap:10px;}
+    .logo{font-size:17px;gap:8px;}
+    .logo .full{display:none;}
+    .logo .short{display:inline;}
+    .navlink{display:none;}
+    .btn.sm{padding:8px 14px;font-size:13.5px;border-radius:9px;}
+  }
   .btn{display:inline-block;background:var(--violet);color:#fff;font-family:var(--font-b);font-weight:600;
        font-size:15.5px;padding:12px 22px;border-radius:11px;text-decoration:none;border:none;cursor:pointer;}
   .btn:hover{background:#7C4DF5;}
@@ -378,9 +390,9 @@
 
 <nav>
   <div class="nav-in">
-    <span class="logo"><span class="bulb"></span>The AFTRDARK Service</span>
+    <span class="logo"><span class="bulb"></span><span class="full">The AFTRDARK Service</span><span class="short">AFTRDARK</span></span>
     <span class="sp"></span>
-    <a href="#guarantee" style="font-size:14.5px;color:var(--ink-2);text-decoration:none;margin-right:4px">Our guarantee</a>
+    <a class="navlink" href="#guarantee">Our guarantee</a>
     <a class="btn sm" href="#talk">Book a call</a>
   </div>
 </nav>
