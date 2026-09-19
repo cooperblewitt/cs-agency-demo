@@ -74,58 +74,48 @@
   @media(min-width:1000px){.hero-grid{grid-template-columns:1fr 372px;}}
   .kicker{font-family:var(--font-m);font-size:12.5px;color:var(--ink-3);margin-top:20px;}
 
-  /* ---------------- the night ----------------
-     The sky turns from dusk to dawn as the page scrolls, the clock runs with it,
-     and the count of jobs climbs while nobody is awake. */
-  .night{margin-top:34px;position:relative;height:336px;border-radius:20px;overflow:hidden;
-         border:1px solid var(--edge);isolation:isolate;}
-  .sky{position:absolute;inset:0;z-index:0;transition:background .12s linear;}
-  .stars{position:absolute;inset:0 0 38% 0;z-index:1;opacity:0;transition:opacity .35s ease;}
-  .stars i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;
-           animation:tw 3.6s ease-in-out infinite;}
-  @keyframes tw{0%,100%{opacity:.25}50%{opacity:1}}
-  .horizon{position:absolute;left:-10%;right:-10%;bottom:-62%;height:120%;z-index:1;
-           border-radius:50%;transition:background .12s linear,opacity .25s linear;}
-
-  .night-in{position:relative;z-index:3;height:100%;display:flex;flex-direction:column;
-            padding:20px 22px;}
+  /* ---------------- the street ----------------
+     A dark street drawn on canvas. The sun drops behind the rooftops, the stars
+     come out, and one house lights up for every job booked while they sleep. */
+  .night{margin-top:34px;position:relative;height:372px;border-radius:20px;overflow:hidden;
+         border:1px solid var(--edge);isolation:isolate;background:#05050C;}
+  .night canvas{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0;}
+  .scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+         background:linear-gradient(170deg,rgba(0,0,0,.62) 0%,rgba(0,0,0,.30) 42%,
+                    transparent 62%,rgba(0,0,0,.35) 100%);}
+  .night-in{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;
+            padding:20px 22px 18px;}
   .night .eye{margin:0 0 auto;color:var(--violet-lt);}
 
-  .clock{display:flex;align-items:baseline;gap:9px;}
-  .clock b{font-family:var(--font-d);font-size:clamp(40px,6.4vw,58px);font-weight:800;
+  .row1{display:flex;align-items:baseline;gap:14px;}
+  .clock{display:flex;align-items:baseline;gap:8px;}
+  .clock b{font-family:var(--font-d);font-size:clamp(38px,6vw,54px);font-weight:800;
            letter-spacing:-.045em;line-height:.9;color:#fff;font-variant-numeric:tabular-nums;
-           text-shadow:0 2px 28px rgba(0,0,0,.6);}
-  .clock i{font-family:var(--font-m);font-size:14px;font-style:normal;font-weight:600;
-           letter-spacing:.1em;color:rgba(255,255,255,.62);}
+           text-shadow:0 2px 30px rgba(0,0,0,.8);}
+  .clock i{font-family:var(--font-m);font-size:13.5px;font-style:normal;font-weight:600;
+           letter-spacing:.1em;color:rgba(255,255,255,.6);}
+  .tally2{margin-left:auto;text-align:right;line-height:1;}
+  .tally2 b{font-family:var(--font-d);font-size:34px;font-weight:800;letter-spacing:-.05em;
+            color:var(--amber);font-variant-numeric:tabular-nums;
+            text-shadow:0 0 30px rgba(245,165,36,.6);}
+  .tally2 span{display:block;margin-top:5px;font-family:var(--font-m);font-size:9.5px;
+               letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.55);}
   .beat{animation:beat .5s cubic-bezier(.2,.9,.3,1);}
   @keyframes beat{0%{opacity:0;transform:translateY(12px) scale(.96);filter:blur(5px)}
                   100%{opacity:1;transform:none;filter:none}}
+  .pop{animation:pop .6s cubic-bezier(.2,1.5,.4,1);}
+  @keyframes pop{0%{transform:scale(.5);opacity:.2}60%{transform:scale(1.16)}100%{transform:none}}
 
-  .said{margin-top:10px;min-height:44px;font-size:16px;line-height:1.35;color:#fff;
-        max-width:30ch;text-shadow:0 1px 18px rgba(0,0,0,.75);}
+  .said{margin:11px 0 0;min-height:44px;font-size:16px;line-height:1.35;color:#fff;
+        max-width:32ch;text-shadow:0 1px 20px rgba(0,0,0,.9);}
   .said.beat{animation:said .55s cubic-bezier(.2,.9,.3,1);}
   @keyframes said{0%{opacity:0;transform:translateY(9px)}100%{opacity:1;transform:none}}
 
-  .pips{display:flex;gap:6px;margin-top:16px;}
-  .pips span{height:3px;flex:1;border-radius:2px;background:rgba(255,255,255,.18);
+  .pips{display:flex;gap:6px;margin-top:14px;}
+  .pips span{height:3px;flex:1;border-radius:2px;background:rgba(255,255,255,.16);
              transition:background .4s ease,box-shadow .4s ease;}
-  .pips span.on{background:var(--amber);box-shadow:0 0 10px rgba(245,165,36,.75);}
+  .pips span.on{background:var(--amber);box-shadow:0 0 10px rgba(245,165,36,.8);}
 
-  .booked-n{margin-top:16px;display:flex;align-items:flex-end;gap:11px;
-            border-top:1px solid rgba(255,255,255,.14);padding-top:14px;}
-  .booked-n b{font-family:var(--font-d);font-size:44px;font-weight:800;line-height:.85;
-              letter-spacing:-.05em;color:var(--amber);font-variant-numeric:tabular-nums;
-              text-shadow:0 0 26px rgba(245,165,36,.45);}
-  .booked-n b.pop{animation:pop .55s cubic-bezier(.2,1.5,.4,1);}
-  @keyframes pop{0%{transform:scale(.55);opacity:.2}60%{transform:scale(1.14)}100%{transform:none}}
-  .booked-n span{font-family:var(--font-m);font-size:11px;letter-spacing:.16em;
-                 text-transform:uppercase;color:rgba(255,255,255,.6);padding-bottom:5px;
-                 line-height:1.45;}
-
-  @media (prefers-reduced-motion:reduce){
-    .stars i{animation:none;opacity:.7;}
-    .beat,.pop,.said.beat{animation:none;}
-  }
   /* One column on small screens: no gap to fill, and it would push the phone down. */
   @media (max-width:999px){ .night{display:none;} }
 
@@ -396,18 +386,18 @@
       <p class="kicker">Missed calls &middot; Instagram &middot; Facebook &middot; Email &middot; Website &middot; Old customers</p>
 
       <div class="night" id="night">
-        <span class="sky" id="sky"></span>
-        <span class="stars" id="stars"></span>
-        <span class="horizon" id="horizon"></span>
+        <canvas id="street" aria-hidden="true"></canvas>
+        <span class="scrim"></span>
         <div class="night-in">
           <p class="eye">5pm to 7am, one night</p>
-          <div class="clock"><b id="clockT">5:00</b><i id="clockM">PM</i></div>
+          <div class="row1">
+            <div class="clock"><b id="clockT">5:00</b><i id="clockM">PM</i></div>
+            <div class="tally2"><b id="bookedN">0</b><span>Booked<br>while you slept</span></div>
+          </div>
           <p class="said" id="said">You knock off and head home.</p>
           <div class="pips" id="pips"></div>
-          <div class="booked-n">
-            <b id="bookedN">0</b>
-            <span>Jobs booked<br>while you were out</span>
-          </div>
+        </div>
+      </div>
         </div>
       </div>
     </div>
@@ -846,97 +836,206 @@
     b.onclick=function(){run(k);};
     tabs.appendChild(b);
   });
-  // ---- the night ------------------------------------------------------------
-  // Scroll runs the clock from knock-off to the next morning. The sky turns with
-  // it, the stars come out and fade, and the job count climbs while nobody is up.
+  // ---- the street ------------------------------------------------------------
+  // Scroll runs one night. The sun drops behind the rooftops, the stars come out,
+  // a shooting star goes over, and a house lights up for every job booked.
   (function(){
-    var panel=document.getElementById("night");
-    if(!panel) return;
+    var panel=document.getElementById("night"), cv=document.getElementById("street");
+    if(!panel||!cv) return;
+    var ctx=cv.getContext("2d");
 
     var MOMENTS=[
-      {t:"5:00",  m:"PM", x:"You knock off and head home.",                      n:0},
-      {t:"6:42",  m:"PM", x:"Missed call. Texted back, booked for 8am.",         n:1},
-      {t:"9:14",  m:"PM", x:"Instagram message. Price given, quote booked.",     n:2},
-      {t:"11:40", m:"PM", x:"Enquiry off the website. Answered and booked in.",  n:3},
-      {t:"6:30",  m:"AM", x:"Reminders out to everyone booked in today.",        n:3},
-      {t:"7:00",  m:"AM", x:"You pick up your phone. Three jobs already in.",    n:3}
+      {t:"5:00",  m:"PM", x:"You knock off and head home.",                     n:0},
+      {t:"6:42",  m:"PM", x:"Missed call. Texted back, booked for 8am.",        n:1},
+      {t:"9:14",  m:"PM", x:"Instagram message. Price given, quote booked.",    n:2},
+      {t:"11:40", m:"PM", x:"Enquiry off the website. Answered and booked in.", n:3},
+      {t:"6:30",  m:"AM", x:"Reminders out to everyone booked in today.",       n:3},
+      {t:"7:00",  m:"AM", x:"You pick up your phone. Three jobs already in.",   n:3}
     ];
-
     // dusk, deep night, first light
     var SKY=[
-      {top:[27,20,48],  base:[58,36,24],  glow:[245,165,36], glowA:0.55, star:0.00},
-      {top:[7,6,13],    base:[11,10,22],  glow:[139,92,246], glowA:0.20, star:1.00},
-      {top:[18,23,46],  base:[46,36,24],  glow:[245,180,90], glowA:0.50, star:0.15}
+      {hi:[30,22,54], lo:[104,56,28]},
+      {hi:[5,5,12],   lo:[13,11,28]},
+      {hi:[16,26,56], lo:[110,70,32]}
     ];
 
-    var sky=document.getElementById("sky"),
-        stars=document.getElementById("stars"),
-        horizon=document.getElementById("horizon"),
-        clockT=document.getElementById("clockT"),
-        clockM=document.getElementById("clockM"),
-        said=document.getElementById("said"),
-        pips=document.getElementById("pips"),
+    var clockT=document.getElementById("clockT"), clockM=document.getElementById("clockM"),
+        said=document.getElementById("said"), pips=document.getElementById("pips"),
         bookedN=document.getElementById("bookedN");
-
-    // a fixed star field, scattered once
-    var seed=7, html="";
-    function rnd(){ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; }
-    for(var i=0;i<58;i++){
-      var d=(rnd()*3.4).toFixed(2);
-      html+='<i style="left:'+(rnd()*100).toFixed(1)+'%;top:'+(rnd()*100).toFixed(1)+
-            '%;animation-delay:'+d+'s;opacity:'+(0.35+rnd()*0.65).toFixed(2)+'"></i>';
-    }
-    stars.innerHTML=html;
-
     MOMENTS.forEach(function(){ pips.appendChild(document.createElement("span")); });
     var pipEls=[].slice.call(pips.children);
 
+    var seed=20260920;
+    function rnd(){ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; }
+
+    var W=0,H=0,DPR=1, houses=[], stars=[], roofY=0;
+
+    function build(){
+      var r=panel.getBoundingClientRect();
+      DPR=Math.min(window.devicePixelRatio||1,2);
+      W=Math.max(1,Math.round(r.width)); H=Math.max(1,Math.round(r.height));
+      cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+
+      roofY=H*0.60;
+      seed=20260920;
+      stars=[];
+      for(var i=0;i<90;i++){
+        stars.push({x:rnd()*W, y:rnd()*roofY*0.92, r:rnd()<0.12?1.5:0.9,
+                    ph:rnd()*6.28, sp:0.6+rnd()*1.5});
+      }
+      // a row of houses along the bottom, each with a couple of windows
+      houses=[]; var x=-14;
+      while(x<W+20){
+        var w=48+rnd()*46, h=58+rnd()*54, pitch=rnd()<0.6;
+        var hs={x:x, w:w, top:H-h, pitch:pitch, peak:pitch?(16+rnd()*14):0, win:[]};
+        var cols=w>78?3:2, rows=h>84?2:1;
+        for(var c=0;c<cols;c++) for(var rw=0;rw<rows;rw++){
+          var ww=11, wh=14;
+          hs.win.push({ x: hs.x + (w/(cols+1))*(c+1) - ww/2,
+                        y: hs.top + hs.peak + 16 + rw*(wh+12), w:ww, h:wh });
+        }
+        houses.push(hs); x += w + 5 + rnd()*12;
+      }
+      // pick which houses light up, spread across the street
+      var order=[]; for(var k=0;k<houses.length;k++) order.push(k);
+      lightOrder=[ order[Math.floor(houses.length*0.22)],
+                   order[Math.floor(houses.length*0.58)],
+                   order[Math.floor(houses.length*0.83)] ];
+    }
+    var lightOrder=[];
+
     function mix(a,b,t){ return [0,1,2].map(function(i){ return Math.round(a[i]+(b[i]-a[i])*t); }); }
-    function rgb(c,alpha){ return "rgba("+c[0]+","+c[1]+","+c[2]+","+(alpha==null?1:alpha)+")"; }
+    function rgb(c,al){ return "rgba("+c[0]+","+c[1]+","+c[2]+","+(al==null?1:al)+")"; }
+    function clamp(v,lo,hi){ return v<lo?lo:v>hi?hi:v; }
+    function span(v,a,b){ return clamp((v-a)/(b-a),0,1); }
+    function ease(t){ return t*t*(3-2*t); }
+
+    var p=0, target=0, lights=[0,0,0], shootAt=-1, t0=performance.now();
+
+    function draw(now){
+      var dt=Math.min(0.05,(now-t0)/1000); t0=now;
+      p += (target-p)*Math.min(1, dt*7);            // ease toward the scroll position
+
+      // sky
+      var half=p<0.45, t=half?ease(p/0.45):ease((p-0.45)/0.55);
+      var A=SKY[half?0:1], B=SKY[half?1:2];
+      var hi=mix(A.hi,B.hi,t), lo=mix(A.lo,B.lo,t);
+      var g=ctx.createLinearGradient(0,0,0,roofY*1.12);
+      g.addColorStop(0,rgb(hi)); g.addColorStop(1,rgb(lo));
+      ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+
+      // stars: out once the sun has gone, away again at first light
+      var starA=Math.min(span(p,0.10,0.34), 1-span(p,0.80,0.97));
+      if(starA>0.01){
+        for(var i=0;i<stars.length;i++){
+          var st=stars[i];
+          var tw=0.55+0.45*Math.sin(now/1000*st.sp+st.ph);
+          ctx.globalAlpha=starA*tw; ctx.fillStyle="#fff";
+          ctx.beginPath(); ctx.arc(st.x,st.y,st.r,0,6.283); ctx.fill();
+        }
+        ctx.globalAlpha=1;
+      }
+
+      // the sun: sets on the right, comes back up on the left
+      var sx=null, sy=null, sunA=0;
+      if(p<0.20){ var d=ease(span(p,0,0.20)); sx=W*0.80+d*W*0.06; sy=roofY-34+d*96; sunA=1-span(p,0.13,0.20); }
+      else if(p>0.84){ var u=ease(span(p,0.84,1)); sx=W*0.20-u*W*0.05; sy=roofY+62-u*96; sunA=span(p,0.84,0.90); }
+      if(sx!==null && sunA>0.01){
+        var gl=ctx.createRadialGradient(sx,sy,2,sx,sy,120);
+        gl.addColorStop(0,"rgba(255,176,64,"+(0.55*sunA)+")");
+        gl.addColorStop(1,"rgba(255,140,30,0)");
+        ctx.fillStyle=gl; ctx.beginPath(); ctx.arc(sx,sy,120,0,6.283); ctx.fill();
+        var sg=ctx.createRadialGradient(sx,sy-8,3,sx,sy,34);
+        sg.addColorStop(0,"rgba(255,235,190,"+sunA+")");
+        sg.addColorStop(0.55,"rgba(255,186,74,"+sunA+")");
+        sg.addColorStop(1,"rgba(232,110,24,"+sunA+")");
+        ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(sx,sy,34,0,6.283); ctx.fill();
+      }
+
+      // one shooting star, deep in the night
+      if(shootAt<0 && p>0.48 && p<0.72 && starA>0.6) shootAt=now;
+      if(p<0.40||p>0.80) shootAt=-1;
+      if(shootAt>0){
+        var el=(now-shootAt)/1400;
+        if(el<1){
+          var a2=Math.sin(Math.PI*clamp(el*1.1,0,1));
+          var hx=W*0.06+el*W*0.72, hy=H*0.10+el*H*0.30, len=54+el*44;
+          var tg=ctx.createLinearGradient(hx-len*0.86,hy-len*0.33,hx,hy);
+          tg.addColorStop(0,"rgba(255,255,255,0)"); tg.addColorStop(1,"rgba(255,255,255,"+(0.9*a2)+")");
+          ctx.strokeStyle=tg; ctx.lineWidth=2; ctx.lineCap="round";
+          ctx.beginPath(); ctx.moveTo(hx-len*0.86,hy-len*0.33); ctx.lineTo(hx,hy); ctx.stroke();
+          ctx.fillStyle="rgba(255,255,255,"+a2+")";
+          ctx.beginPath(); ctx.arc(hx,hy,2.1,0,6.283); ctx.fill();
+        }
+      }
+
+      // how many houses should be lit by now
+      var want=0;
+      for(var q=MOMENTS.length-1;q>=0;q--){ if(p>=q/MOMENTS.length){ want=MOMENTS[q].n; break; } }
+      for(var L=0;L<3;L++){
+        var goal=L<want?1:0;
+        lights[L] += (goal-lights[L])*Math.min(1, dt*3.2);
+      }
+
+      // the street
+      ctx.fillStyle="#04040A";
+      for(var hI=0;hI<houses.length;hI++){
+        var hh=houses[hI];
+        ctx.beginPath();
+        if(hh.pitch){
+          ctx.moveTo(hh.x,hh.top+hh.peak);
+          ctx.lineTo(hh.x+hh.w/2,hh.top);
+          ctx.lineTo(hh.x+hh.w,hh.top+hh.peak);
+        } else { ctx.moveTo(hh.x,hh.top); ctx.lineTo(hh.x+hh.w,hh.top); }
+        ctx.lineTo(hh.x+hh.w,H); ctx.lineTo(hh.x,H); ctx.closePath(); ctx.fill();
+      }
+      // lit windows, drawn after so the glow sits over the roofline
+      for(var LI=0;LI<lightOrder.length;LI++){
+        var lv=lights[LI]; if(lv<0.02) continue;
+        var house=houses[lightOrder[LI]]; if(!house) continue;
+        for(var wI=0;wI<house.win.length;wI++){
+          var wn=house.win[wI];
+          var cx=wn.x+wn.w/2, cy=wn.y+wn.h/2;
+          var wg=ctx.createRadialGradient(cx,cy,1,cx,cy,44);
+          wg.addColorStop(0,"rgba(255,186,74,"+(0.42*lv)+")");
+          wg.addColorStop(1,"rgba(255,160,40,0)");
+          ctx.fillStyle=wg; ctx.beginPath(); ctx.arc(cx,cy,44,0,6.283); ctx.fill();
+          ctx.fillStyle="rgba(255,206,120,"+(0.95*lv)+")";
+          ctx.fillRect(wn.x,wn.y,wn.w,wn.h);
+        }
+      }
+      requestAnimationFrame(draw);
+    }
 
     var shown=-1, count=0, queued=false;
-
-    function paint(){
+    function measure(){
       queued=false;
-      var r=panel.getBoundingClientRect(), vh=window.innerHeight||800;
-      var p=(vh*0.74-r.top)/(r.height+vh*0.34);
-      p=p<0?0:p>1?1:p;
+      var vh=window.innerHeight||800;
+      // Measured from the top of the page, not from the panel, so the night always
+      // starts at dusk on arrival. The whole thing runs in about half a screen.
+      var y=window.scrollY||document.documentElement.scrollTop||0;
+      target=clamp(y/(vh*0.52),0,1);
 
-      // sky: dusk -> night -> dawn
-      var half=p<0.5, t=half?p/0.5:(p-0.5)/0.5;
-      var A=SKY[half?0:1], B=SKY[half?1:2];
-      var top=mix(A.top,B.top,t), base=mix(A.base,B.base,t), glow=mix(A.glow,B.glow,t);
-      var glowA=A.glowA+(B.glowA-A.glowA)*t, starA=A.star+(B.star-A.star)*t;
-
-      sky.style.background="linear-gradient(180deg,"+rgb(top)+" 0%,"+rgb(base)+" 100%)";
-      horizon.style.background="radial-gradient(ellipse at 50% 100%,"+rgb(glow,glowA)+
-                               " 0%,"+rgb(glow,glowA*0.35)+" 35%,transparent 68%)";
-      stars.style.opacity=starA.toFixed(2);
-
-      // which moment we are at
-      var idx=Math.min(MOMENTS.length-1, Math.floor(p*MOMENTS.length*0.999));
+      var idx=Math.min(MOMENTS.length-1, Math.floor(target*MOMENTS.length*0.999));
       pipEls.forEach(function(el,i){ el.classList.toggle("on", i<=idx); });
-
       if(idx!==shown){
-        shown=idx;
-        var mo=MOMENTS[idx];
-        clockT.textContent=mo.t; clockM.textContent=mo.m;
-        said.textContent=mo.x;
+        shown=idx; var mo=MOMENTS[idx];
+        clockT.textContent=mo.t; clockM.textContent=mo.m; said.textContent=mo.x;
         clockT.classList.remove("beat"); said.classList.remove("beat");
         void clockT.offsetWidth;
         clockT.classList.add("beat"); said.classList.add("beat");
         if(mo.n!==count){
-          count=mo.n;
-          bookedN.textContent=String(count);
+          count=mo.n; bookedN.textContent=String(count);
           bookedN.classList.remove("pop"); void bookedN.offsetWidth; bookedN.classList.add("pop");
         }
       }
     }
+    function onScroll(){ if(!queued){ queued=true; requestAnimationFrame(measure); } }
 
-    function onScroll(){ if(!queued){ queued=true; requestAnimationFrame(paint); } }
+    build(); measure(); p=target;
     window.addEventListener("scroll",onScroll,{passive:true});
-    window.addEventListener("resize",onScroll);
-    paint();
+    window.addEventListener("resize",function(){ build(); measure(); });
+    requestAnimationFrame(draw);
   })();
 
   document.getElementById("replay").onclick=function(){run(cur);};
