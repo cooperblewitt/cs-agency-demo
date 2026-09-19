@@ -70,105 +70,142 @@
     width:900px;height:460px;background:radial-gradient(ellipse at center,rgba(139,92,246,.18),transparent 65%);
     pointer-events:none;}
   .hero-grid{display:grid;gap:52px;align-items:start;position:relative;}
-  @media(min-width:1000px){.hero-grid{grid-template-columns:1fr 390px;}}
+  @media(min-width:1000px){.hero-grid{grid-template-columns:1fr 372px;}}
   .kicker{font-family:var(--font-m);font-size:12.5px;color:var(--ink-3);margin-top:20px;}
 
   /* ---------------- the device ---------------- */
-  .tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px;}
+  .tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;justify-content:center;}
   .tab{font-family:var(--font-b);font-size:13.5px;font-weight:600;padding:9px 14px;border-radius:10px;
        cursor:pointer;background:var(--raise);border:1px solid var(--edge);color:var(--ink-2);}
   .tab[aria-selected="true"]{background:rgba(139,92,246,.18);border-color:var(--violet);color:#fff;}
 
-  .device{background:#000;border:1px solid var(--edge-2);border-radius:38px;padding:11px;
-          box-shadow:0 40px 90px -30px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.04) inset;}
-  .screen{background:#0B0B0F;border-radius:29px;overflow:hidden;height:560px;position:relative;}
-  .statusbar{display:flex;justify-content:space-between;align-items:center;padding:11px 20px 7px;
-             font-family:var(--font-m);font-size:11.5px;color:rgba(255,255,255,.65);}
+  /* the handset */
+  .iphone{width:min(336px,100%);margin:0 auto;background:#0a0a0a;border-radius:54px;padding:12px;
+          border:1px solid #2b2b2f;
+          box-shadow:0 50px 100px -34px rgba(0,0,0,.95),0 0 0 2px rgba(255,255,255,.05) inset;}
+  .screen{border-radius:43px;overflow:hidden;height:648px;position:relative;
+          background:var(--sc-bg);transition:background .35s;}
+  /* per-app colour sets: each channel renders in its own real chrome */
+  .screen{--sc-bg:#fff;--sc-head:#F7F7F8;--sc-line:#DEDEE3;--sc-ink:#000;--sc-sub:#8A8A8E;
+          --sc-in-bg:#E9E9EB;--sc-in-ink:#000;--sc-out-bg:#34C759;--sc-out-ink:#fff;
+          --sc-status:#000;--sc-bar:rgba(0,0,0,.28);--sc-field:#fff;--sc-fieldline:#D3D3D8;}
+  .screen[data-app="fb"]{--sc-head:#fff;--sc-line:#E4E6EB;--sc-ink:#050505;--sc-sub:#65676B;
+          --sc-in-bg:#F0F0F0;--sc-in-ink:#050505;--sc-out-bg:#0084FF;--sc-fieldline:#DADDE1;}
+  .screen[data-app="ig"]{--sc-bg:#000;--sc-head:#000;--sc-line:#262626;--sc-ink:#fff;--sc-sub:#A8A8A8;
+          --sc-in-bg:#262626;--sc-in-ink:#fff;--sc-out-bg:#3797F0;
+          --sc-status:#fff;--sc-bar:rgba(255,255,255,.42);--sc-field:#000;--sc-fieldline:#363636;}
+  .screen[data-app="app"]{--sc-bg:#0E0D15;--sc-head:#131120;--sc-line:#252238;--sc-ink:#fff;
+          --sc-sub:rgba(255,255,255,.45);--sc-out-bg:#8B5CF6;
+          --sc-status:#fff;--sc-bar:rgba(255,255,255,.42);}
 
-  .panel{position:absolute;inset:38px 0 0;display:flex;flex-direction:column;
-         transition:transform .5s cubic-bezier(.4,0,.2,1),opacity .35s;}
-  .panel.out-left{transform:translateX(-18%);opacity:0;pointer-events:none;}
-  .panel.in-right{transform:translateX(100%);opacity:0;pointer-events:none;}
+  /* status bar + dynamic island */
+  .ios{position:absolute;top:0;left:0;right:0;height:52px;z-index:5;background:var(--sc-head);
+       display:flex;align-items:center;
+       justify-content:space-between;padding:16px 26px 0;color:var(--sc-status);
+       font-family:var(--font-b);font-size:14.5px;font-weight:600;letter-spacing:-.01em;}
+  .island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:98px;height:29px;
+          background:#000;border-radius:16px;}
+  .ios svg{display:block;}
+  .ios .ic{display:flex;align-items:center;gap:5px;}
 
-  .apphead{padding:9px 16px 11px;border-bottom:1px solid rgba(255,255,255,.08);
-           display:flex;align-items:center;gap:11px;flex:none;}
-  .avatar{width:32px;height:32px;border-radius:50%;flex:none;display:grid;place-items:center;
-          font-family:var(--font-d);font-weight:800;font-size:12.5px;color:#fff;}
-  .apphead .nm{font-size:14.5px;font-weight:600;line-height:1.2;}
-  .apphead .sm2{font-size:11.5px;color:rgba(255,255,255,.4);}
-  .appname{font-family:var(--font-m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-           color:rgba(255,255,255,.35);margin-left:auto;}
+  .stage{position:absolute;inset:52px 0 0;}
+  .panel{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--sc-bg);
+         transition:transform .52s cubic-bezier(.36,.06,.2,1),opacity .34s;}
+  .panel.out-left{transform:translateX(-24%);opacity:0;}
+  .panel.in-right{transform:translateX(100%);opacity:0;}
 
-  .body{flex:1;overflow:hidden;padding:14px 14px 10px;display:flex;flex-direction:column;gap:9px;}
+  /* centred contact header, the way iOS shows a thread */
+  .conv{flex:none;padding:6px 16px 12px;text-align:center;background:var(--sc-head);
+        border-bottom:1px solid var(--sc-line);}
+  .conv .av{width:52px;height:52px;border-radius:50%;margin:0 auto 7px;display:grid;place-items:center;
+            font-family:var(--font-d);font-weight:700;font-size:17px;color:#fff;background:#34C759;
+            letter-spacing:.01em;}
+  .conv .av.ring{box-shadow:0 0 0 2px var(--sc-bg),0 0 0 4.5px transparent;
+                 background:linear-gradient(135deg,#F58529,#DD2A7B 55%,#8134AF);}
+  .conv .av.ring i{width:44px;height:44px;border-radius:50%;background:#34C759;display:grid;
+                   place-items:center;font-style:normal;font-size:15px;}
+  .conv .av.fbc{background:#0084FF;} .conv .av.vio{background:#8B5CF6;}
+  .conv .nm{font-size:15.5px;font-weight:600;color:var(--sc-ink);letter-spacing:-.01em;}
+  .conv .sub{font-size:13px;color:var(--sc-sub);margin-top:1px;}
+  .conv .lv{display:inline-flex;align-items:center;gap:5px;}
+  .conv .dot{width:7px;height:7px;border-radius:50%;background:#34C759;}
 
-  /* call log */
-  .callrow{display:flex;align-items:center;gap:13px;padding:13px 4px;border-bottom:1px solid rgba(255,255,255,.07);
-           opacity:0;animation:fadeUp .4s ease forwards;}
-  .callicon{width:30px;height:30px;border-radius:50%;background:rgba(255,69,58,.16);display:grid;
-            place-items:center;color:#FF453A;font-size:15px;flex:none;}
-  .callrow .who{flex:1;min-width:0;}
-  .callrow .who b{display:block;font-size:15px;color:#FF453A;font-weight:600;}
-  .callrow .who span{font-size:12.5px;color:rgba(255,255,255,.45);}
-  .callrow .when{font-size:12.5px;color:rgba(255,255,255,.4);font-family:var(--font-m);}
-  .missedbanner{margin:10px 4px 0;padding:11px 13px;border-radius:11px;background:rgba(255,69,58,.1);
-                border:1px solid rgba(255,69,58,.28);font-size:13px;color:#FFB4AE;
-                opacity:0;animation:fadeUp .4s .5s ease forwards;}
+  /* simple left-aligned header for the call log and the AFTRDARK list */
+  .listhead{flex:none;padding:8px 18px 12px;background:var(--sc-head);
+            border-bottom:1px solid var(--sc-line);display:flex;align-items:baseline;gap:9px;}
+  .listhead b{font-family:var(--font-d);font-size:24px;color:var(--sc-ink);letter-spacing:-.03em;}
+  .listhead span{font-size:12.5px;color:var(--sc-sub);margin-left:auto;font-family:var(--font-m);}
 
+  .thread{flex:1;overflow-y:auto;scrollbar-width:none;padding:14px 13px 8px;
+          display:flex;flex-direction:column;gap:3px;}
+  .thread::-webkit-scrollbar{display:none;}
+
+  /* composer */
+  .composer{flex:none;display:flex;align-items:center;gap:9px;padding:9px 13px 6px;
+            border-top:1px solid var(--sc-line);background:var(--sc-bg);}
+  .composer .field{flex:1;border:1px solid var(--sc-fieldline);background:var(--sc-field);
+                   border-radius:19px;padding:8px 14px;font-size:14px;color:var(--sc-sub);}
+  .composer .send{width:31px;height:31px;border-radius:50%;background:var(--sc-out-bg);flex:none;
+                  display:grid;place-items:center;color:#fff;font-size:15px;font-weight:700;}
+  .screen[data-app="ig"] .composer .send{background:linear-gradient(135deg,#DD2A7B,#8134AF);}
+  .homebar{flex:none;height:22px;display:grid;place-items:center;background:var(--sc-bg);}
+  .homebar i{display:block;width:120px;height:4.5px;border-radius:3px;background:var(--sc-bar);}
+
+  /* call log rows */
+  .callrow{display:flex;align-items:center;gap:12px;padding:12px 6px;
+           border-bottom:1px solid var(--sc-line);opacity:0;animation:fadeUp .4s ease forwards;}
+  .callrow .ci{width:30px;height:30px;border-radius:50%;background:rgba(255,59,48,.14);flex:none;
+               display:grid;place-items:center;color:#FF3B30;font-size:16px;}
+  .callrow .w{flex:1;min-width:0;}
+  .callrow .w b{display:block;font-size:15.5px;font-weight:600;color:#FF3B30;letter-spacing:-.01em;}
+  .callrow .w span{font-size:13px;color:var(--sc-sub);}
+  .callrow .tm{font-size:13px;color:var(--sc-sub);}
+  .caption{margin:12px 6px 0;padding:11px 13px;border-radius:12px;background:rgba(255,59,48,.08);
+           border:1px solid rgba(255,59,48,.25);font-size:13px;line-height:1.45;color:#C6241B;
+           opacity:0;animation:fadeUp .4s .45s ease forwards;}
+  .screen[data-app="app"] .caption{background:rgba(139,92,246,.14);border-color:rgba(139,92,246,.36);
+           color:var(--violet-lt);}
   @keyframes fadeUp{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
 
-  /* message bubbles */
-  .row{display:flex;flex-direction:column;opacity:0;animation:fadeUp .35s ease forwards;}
-  .row.me{align-items:flex-end;}
-  .row.them{align-items:flex-start;}
-  .bubble{max-width:82%;padding:9px 13px;border-radius:18px;font-size:14.5px;line-height:1.4;}
-  .row.me .bubble{background:var(--imsg);color:#fff;border-bottom-right-radius:5px;}
-  .row.them .bubble{background:#26252B;color:#fff;border-bottom-left-radius:5px;}
-  .meta{font-family:var(--font-m);font-size:10px;color:rgba(255,255,255,.35);margin:4px 3px 0;}
-  .sysline{font-family:var(--font-m);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
-           color:rgba(255,255,255,.3);text-align:center;margin:3px 0;}
+  /* bubbles */
+  .row{display:flex;flex-direction:column;opacity:0;animation:fadeUp .34s ease forwards;margin-top:6px;}
+  .row.me{align-items:flex-end;} .row.them{align-items:flex-start;}
+  .bubble{max-width:80%;padding:9px 14px;border-radius:19px;font-size:14.5px;line-height:1.38;}
+  .row.them .bubble{background:var(--sc-in-bg);color:var(--sc-in-ink);border-bottom-left-radius:6px;}
+  .row.me .bubble{background:var(--sc-out-bg);color:var(--sc-out-ink);border-bottom-right-radius:6px;}
+  .screen[data-app="ig"] .row.me .bubble{background:linear-gradient(135deg,#DD2A7B,#8134AF);}
+  .meta{font-size:10.5px;color:var(--sc-sub);margin:3px 5px 0;font-family:var(--font-m);}
+  .sysline{font-size:11px;color:var(--sc-sub);text-align:center;margin:9px 0 2px;
+           font-family:var(--font-m);letter-spacing:.05em;text-transform:uppercase;}
 
-  /* instagram look */
-  .ig .row.me .bubble{background:linear-gradient(135deg,#C13584,#833AB4);border-bottom-right-radius:5px;}
-  .ig .row.them .bubble{background:#262626;}
-  .ig .avatar{background:linear-gradient(135deg,#F58529,#DD2A7B,#8134AF);}
-  /* messenger look */
-  .fb .row.me .bubble{background:#0084FF;}
-  .fb .row.them .bubble{background:#303030;}
-  .fb .avatar{background:#0084FF;}
-  /* sms look */
-  .sms .avatar{background:#3A3A3C;}
-  /* web chat look */
-  .web .row.me .bubble{background:var(--violet);}
-  .web .row.them .bubble{background:#26252B;}
-  .web .avatar{background:var(--violet);}
-
-  .typing{display:inline-flex;gap:4px;padding:11px 14px;background:#26252B;border-radius:18px;
-          border-bottom-left-radius:5px;}
-  .typing i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55);
-            animation:blink 1.3s infinite;}
+  .typing{display:inline-flex;gap:4px;padding:12px 15px;background:var(--sc-in-bg);border-radius:19px;
+          border-bottom-left-radius:6px;}
+  .typing i{width:6.5px;height:6.5px;border-radius:50%;background:var(--sc-sub);animation:blink 1.3s infinite;}
   .typing i:nth-child(2){animation-delay:.18s}.typing i:nth-child(3){animation-delay:.36s}
-  @keyframes blink{0%,60%,100%{opacity:.25}30%{opacity:1}}
+  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
 
-  .booked{margin-top:4px;padding:13px;border-radius:13px;background:rgba(48,209,88,.11);
-          border:1px solid rgba(48,209,88,.34);opacity:0;animation:fadeUp .4s ease forwards;}
-  .booked b{display:block;font-family:var(--font-d);font-size:14.5px;color:#7BE49A;margin-bottom:4px;}
-  .booked span{font-size:13px;color:rgba(255,255,255,.7);}
+  .booked{margin:10px 2px 2px;padding:13px;border-radius:14px;background:rgba(52,199,89,.12);
+          border:1px solid rgba(52,199,89,.4);opacity:0;animation:fadeUp .4s ease forwards;}
+  .booked b{display:block;font-family:var(--font-d);font-size:14.5px;color:#1B8F3A;margin-bottom:3px;}
+  .booked span{font-size:12.8px;color:var(--sc-sub);line-height:1.45;}
+  .screen[data-app="ig"] .booked b{color:#4ADE80;}
 
-  /* back-book list view */
-  .lead{display:flex;align-items:center;gap:11px;padding:10px 4px;border-bottom:1px solid rgba(255,255,255,.07);
+  /* AFTRDARK list view */
+  .lead{display:flex;align-items:center;gap:11px;padding:10px 6px;border-bottom:1px solid var(--sc-line);
         opacity:0;animation:fadeUp .35s ease forwards;}
-  .lead .ini{width:29px;height:29px;border-radius:9px;background:rgba(139,92,246,.2);color:var(--violet-lt);
-             display:grid;place-items:center;font-family:var(--font-d);font-size:11.5px;font-weight:800;flex:none;}
-  .lead .l-w{flex:1;min-width:0;}
-  .lead .l-w b{display:block;font-size:14px;font-weight:600;}
-  .lead .l-w span{font-size:12px;color:rgba(255,255,255,.45);}
+  .lead .ini{width:32px;height:32px;border-radius:50%;background:rgba(139,92,246,.22);
+             color:var(--violet-lt);display:grid;place-items:center;font-family:var(--font-d);
+             font-size:12px;font-weight:700;flex:none;}
+  .lead .lw{flex:1;min-width:0;}
+  .lead .lw b{display:block;font-size:14.5px;font-weight:600;color:var(--sc-ink);}
+  .lead .lw span{font-size:12.5px;color:var(--sc-sub);}
   .lead .due{font-family:var(--font-m);font-size:10.5px;color:var(--amber);flex:none;}
-  .tally{margin-top:auto;padding:14px;border-radius:13px;background:rgba(139,92,246,.13);
-         border:1px solid rgba(139,92,246,.33);opacity:0;animation:fadeUp .4s ease forwards;}
-  .tally b{font-family:var(--font-d);font-size:26px;display:block;letter-spacing:-.02em;}
+  .tally{margin:10px 2px 2px;padding:15px;border-radius:14px;background:rgba(139,92,246,.14);
+         border:1px solid rgba(139,92,246,.38);opacity:0;animation:fadeUp .4s ease forwards;}
+  .tally b{font-family:var(--font-d);font-size:27px;display:block;letter-spacing:-.03em;color:#fff;}
   .tally span{font-size:13px;color:var(--ink-2);}
 
-  .under{display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap;}
+  .under{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px;flex-wrap:wrap;}
   .under small{font-family:var(--font-m);font-size:11.5px;color:var(--ink-3);}
 
   /* content blocks */
@@ -223,16 +260,38 @@
 
     <div>
       <div class="tabs" role="tablist" id="tabs"></div>
-      <div class="device">
-        <div class="screen" id="screen">
-          <div class="statusbar"><span id="clock">2:14</span><span id="carrier">Telstra 4G</span></div>
-          <div class="panel" id="p1"></div>
-          <div class="panel in-right" id="p2"></div>
+      <div class="iphone">
+        <div class="screen" id="screen" data-app="sms">
+          <div class="ios">
+            <span id="clock">2:14</span>
+            <span class="island"></span>
+            <span class="ic">
+              <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor" aria-hidden="true">
+                <rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/>
+                <rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/>
+              </svg>
+              <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor"
+                   stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+                <path d="M1 4.1a10.5 10.5 0 0 1 14 0"/><path d="M3.6 6.9a6.8 6.8 0 0 1 8.8 0"/>
+                <circle cx="8" cy="10" r="1.1" fill="currentColor" stroke="none"/>
+              </svg>
+              <svg width="25" height="12" viewBox="0 0 25 12" aria-hidden="true">
+                <rect x="0.6" y="0.6" width="21" height="10.8" rx="3.2" fill="none"
+                      stroke="currentColor" stroke-opacity=".45"/>
+                <rect x="2.3" y="2.3" width="17.6" height="7.4" rx="2" fill="currentColor"/>
+                <path d="M23.2 4.2v3.6a2.1 2.1 0 0 0 0-3.6z" fill="currentColor" fill-opacity=".5"/>
+              </svg>
+            </span>
+          </div>
+          <div class="stage">
+            <div class="panel" id="p1"></div>
+            <div class="panel in-right" id="p2"></div>
+          </div>
         </div>
       </div>
       <div class="under">
         <button class="btn ghost sm" id="replay" type="button">Play again</button>
-        <small id="cap">Example conversation. Not a real customer.</small>
+        <small>Example conversations. Not real customers.</small>
       </div>
     </div>
   </div>
@@ -300,164 +359,203 @@
 
 <script>
 (function(){
+  // One fictional business across every channel, so it reads as one real operator.
+  var BIZ = "Coastline Plumbing", INI = "CP";
+
   var S = {
     call:{
-      tab:"Missed call", clock:"2:14", carrier:"Telstra 4G",
-      log:{ head:["Recents","RC","#3A3A3C","Phone"], rows:[
-          ["0412 884 019","mobile, Toormina","2:14 pm"],
-          ["0412 884 019","mobile, Toormina","2:13 pm"]],
-        banner:"Two missed calls. You are under a house in Sawtell with the phone in the ute." },
-      app:"sms", head:["0412 884 019","","#3A3A3C","Messages"],
+      tab:"Missed call", app:"sms", clock:"2:14",
+      log:{ title:"Recents", right:"All",
+        rows:[[BIZ,"mobile","2:14 pm"],[BIZ,"mobile","2:13 pm"]],
+        caption:"You rang twice and got nothing. Most people stop here and ring the next name on the list." },
+      conv:{ name:BIZ, sub:"Mobile", ini:INI },
+      placeholder:"Text Message",
       steps:[
-        {k:"sys", x:"AFTRDARK replied 8 seconds after the missed call"},
-        {k:"me", x:"Hi, it's Dave from Coastline Plumbing. Sorry I missed you, I'm on a job. What do you need done and whereabouts are you?", meta:"Delivered"},
+        {k:"sys",x:"8 seconds after the missed call"},
+        {k:"them",x:"Hi, it's Dave from Coastline Plumbing. Sorry I missed you, I'm on a job. What do you need done and whereabouts are you?"},
+        {k:"me",x:"hot water's gone at home in toormina",meta:"Delivered"},
         {k:"typing"},
-        {k:"them", x:"Hot water's gone at home in Toormina. Any chance today or tomorrow?"},
-        {k:"me", x:"No worries. I've got tomorrow 8am or 1pm free in Toormina. Which suits?"},
-        {k:"typing"},
-        {k:"them", x:"8am please"},
-        {k:"me", x:"Done. Booked you in for 8am tomorrow. I'll text you when I'm on the way."},
-        {k:"booked", b:"Job booked, 8:00am tomorrow", x:"Toormina, hot water. In Dave's calendar, reminder set for tonight. Dave found out when he got out from under the house."}
+        {k:"them",x:"No worries. I've got tomorrow 8am or 1pm free in Toormina. Which suits?"},
+        {k:"me",x:"8am please"},
+        {k:"them",x:"Done. Booked you in for 8am tomorrow. I'll text you when I'm on the way."},
+        {k:"booked",b:"Booked, 8:00am tomorrow",x:"Toormina, hot water. Straight into Dave's calendar. He found out when he got out from under the house."}
       ]},
+
     insta:{
-      tab:"Instagram DM", clock:"7:41", carrier:"Wi-Fi",
-      app:"ig", head:["sarah_m_coffs","Active 2h ago","","Instagram"],
+      tab:"Instagram DM", app:"ig", clock:"7:41",
+      conv:{ name:"coastlineplumbing", sub:"Coastline Plumbing · Plumber", ini:INI, ring:true },
+      placeholder:"Message...",
       steps:[
-        {k:"sys", x:"Saturday night. Dave is at his daughter's birthday."},
-        {k:"them", x:"Hey do you do bathroom regrouts? What's it roughly cost?"},
-        {k:"sys", x:"Answered in 11 seconds"},
-        {k:"me", x:"We do. Honest answer is it depends on the size of the bathroom, so I'd want a quick look first. I can come Tuesday morning, no charge. Want me to pencil it in?"},
+        {k:"sys",x:"Saturday night. Dave is at his daughter's birthday"},
+        {k:"me",x:"Hey do you do bathroom regrouts? What's it roughly cost?"},
+        {k:"sys",x:"Answered in 11 seconds"},
+        {k:"them",x:"We do. Honest answer is it depends on the size of the bathroom, so I'd want a quick look first. I can come Tuesday morning, no charge. Want me to pencil it in?"},
         {k:"typing"},
-        {k:"them", x:"Yes please, Tuesday works 🙌"},
-        {k:"me", x:"Beautiful. Tuesday 9am. What's the address?"},
-        {k:"them", x:"14 Bosworth Rd, Toormina"},
-        {k:"booked", b:"Quote booked, Tuesday 9:00am", x:"Address captured, reminder set. Dave saw it Sunday morning over a coffee, already done."}
+        {k:"me",x:"Yes please, Tuesday works 🙌"},
+        {k:"them",x:"Beautiful. Tuesday 9am. What's the address?"},
+        {k:"me",x:"14 Bosworth Rd, Toormina",meta:"Seen"},
+        {k:"booked",b:"Quote booked, Tuesday 9:00am",x:"Address captured, reminder set. Dave saw the whole thing Sunday morning over a coffee."}
       ]},
+
     fb:{
-      tab:"Facebook DM", clock:"9:52", carrier:"Wi-Fi",
-      app:"fb", head:["Mark Reilly","Facebook page message","","Messenger"],
+      tab:"Facebook DM", app:"fb", clock:"9:52",
+      conv:{ name:BIZ, sub:"Typically replies instantly", ini:INI, fb:true, live:true },
+      placeholder:"Aa",
       steps:[
-        {k:"sys", x:"Nine at night, off a Facebook community post"},
-        {k:"them", x:"Mate someone in the Coffs group said you do roof leaks. Ours is coming through the ceiling in the spare room"},
-        {k:"me", x:"Sorry to hear that. Is it actively dripping right now, or only when it rains?"},
+        {k:"sys",x:"Nine at night, off a community group post"},
+        {k:"me",x:"Mate someone in the Coffs group said you do roof leaks. Ours is coming through the ceiling in the spare room"},
+        {k:"them",x:"Sorry to hear that. Is it actively dripping right now, or only when it rains?"},
         {k:"typing"},
-        {k:"them", x:"Only when it rains hard"},
-        {k:"me", x:"Good, that buys us a bit of time. I can get there tomorrow between 7 and 9. Want me to lock that in?"},
-        {k:"them", x:"Yes mate that'd be great"},
-        {k:"booked", b:"Emergency slot booked, 7:00am", x:"Dave was asleep. The job was in his calendar before he woke up."}
+        {k:"me",x:"Only when it rains hard"},
+        {k:"them",x:"Good, that buys us a bit of time. I can get there tomorrow between 7 and 9. Want me to lock that in?"},
+        {k:"me",x:"Yes mate that'd be great",meta:"Seen 9:53 pm"},
+        {k:"booked",b:"Emergency slot booked, 7:00am",x:"Dave was asleep. The job was in his calendar before he woke up."}
       ]},
+
     quote:{
-      tab:"Quote chase", clock:"4:06", carrier:"Telstra 4G",
-      app:"sms", head:["Mark Reilly","0431 229 780","#3A3A3C","Messages"],
+      tab:"Quote chase", app:"sms", clock:"4:06",
+      conv:{ name:BIZ, sub:"Mobile", ini:INI },
+      placeholder:"Text Message",
       steps:[
-        {k:"sys", x:"Day 0. Dave quoted $4,200 for a re-roof, then heard nothing."},
-        {k:"sys", x:"Day 3. Sent for him."},
-        {k:"me", x:"Hi Mark, just checking the re-roof quote landed alright. Happy to walk through any of it."},
-        {k:"sys", x:"Day 8. Sent for him."},
-        {k:"me", x:"Hi Mark, no pressure either way. Just let me know so I can free the week up if you've gone elsewhere."},
+        {k:"sys",x:"Day 0 · quoted $4,200 for a re-roof, then silence"},
+        {k:"sys",x:"Day 3 · sent for Dave"},
+        {k:"them",x:"Hi Mark, just checking the re-roof quote landed alright. Happy to walk you through any of it."},
+        {k:"sys",x:"Day 8 · sent for Dave"},
+        {k:"them",x:"Hi Mark, no pressure either way. Just let me know so I can free the week up if you've gone elsewhere."},
         {k:"typing"},
-        {k:"them", x:"Sorry mate it got buried. Still keen, can we start the 14th?"},
-        {k:"booked", b:"$4,200 back on", x:"A job Dave had written off, recovered by two messages he never had to bring himself to send."}
+        {k:"me",x:"Sorry mate it got buried. Still keen, can we start the 14th?"},
+        {k:"booked",b:"$4,200 back on",x:"A job Dave had written off, recovered by two messages he never had to bring himself to send."}
       ]},
+
     list:{
-      tab:"Old customers", clock:"8:30", carrier:"Wi-Fi",
-      leads:{ head:["718 past customers","Due for something","#8B5CF6","AFTRDARK"], rows:[
-          ["SM","Sarah Mitchell","Hot water, installed 2019","6 yrs"],
-          ["TN","Trent Nowak","Annual safety check","overdue"],
-          ["JD","Jo Devlin","Backflow test, annual","due"],
-          ["RH","Ray Hughes","Gutter clean, last done 2023","seasonal"],
-          ["AP","Amanda Poulos","Annual service","due"]],
-        banner:"142 of 718 are due for something right now. None of them have heard from Dave since the day he left." },
-      app:"web", head:["Sarah Mitchell","0466 201 884","#8B5CF6","Messages"],
+      tab:"Old customers", app:"app", clock:"8:30", first:"app",
+      leads:{ title:"Due now", right:"718 total",
+        rows:[["SM","Sarah Mitchell","Hot water, installed 2019","6 yrs"],
+              ["TN","Trent Nowak","Annual safety check","overdue"],
+              ["JD","Jo Devlin","Backflow test, annual","due"],
+              ["RH","Ray Hughes","Gutter clean, last done 2023","seasonal"],
+              ["AP","Amanda Poulos","Annual service","due"]],
+        caption:"142 of Dave's 718 past customers are due for something right now. Not one of them has heard from him since the day he left." },
+      convApp:"sms",
+      conv:{ name:BIZ, sub:"Mobile", ini:INI },
+      placeholder:"Text Message",
       steps:[
-        {k:"sys", x:"Sent in Dave's words, at the right time"},
-        {k:"me", x:"Hi Sarah, it's Dave from Coastline. We put your hot water system in back in 2019. They usually want a look at about six years. Want me to swing past and check it?"},
+        {k:"sys",x:"Sent in Dave's words, at the right time"},
+        {k:"them",x:"Hi Sarah, it's Dave from Coastline. We put your hot water system in back in 2019. They usually want a look at about six years. Want me to swing past and check it?"},
         {k:"typing"},
-        {k:"them", x:"Oh good timing, it's been making a noise. Yes please"},
-        {k:"tally", b:"38 jobs back this quarter", x:"No ads. No bidding against three other blokes. They only ever rang Dave."}
+        {k:"me",x:"Oh good timing, it's been making a noise. Yes please"},
+        {k:"tally",b:"38 jobs back this quarter",x:"No ads. No bidding against three other blokes. They only ever rang Dave."}
       ]}
   };
 
   var ORDER=["call","insta","fb","quote","list"], cur="call", timers=[];
-  var p1=document.getElementById("p1"), p2=document.getElementById("p2");
+  var screen=document.getElementById("screen"), p1=document.getElementById("p1"), p2=document.getElementById("p2");
   function clear(){timers.forEach(clearTimeout);timers=[];}
   function at(fn,ms){timers.push(setTimeout(fn,ms));}
   function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
 
-  function head(into,h,extraClass){
-    var hd=el("div","apphead");
-    var av=el("div","avatar");
-    if(h[2])av.style.background=h[2];
-    av.textContent=(h[0].replace(/[^A-Za-z ]/g,"").trim().split(/\s+/).map(function(w){return w[0]||""}).join("").slice(0,2)||"·").toUpperCase();
-    var w=el("div"); w.appendChild(el("div","nm",h[0])); if(h[1])w.appendChild(el("div","sm2",h[1]));
-    hd.appendChild(av);hd.appendChild(w);hd.appendChild(el("span","appname",h[3]));
-    into.appendChild(hd);
-    var b=el("div","body "+(extraClass||"")); into.appendChild(b); return b;
+  function listHead(into,title,right){
+    var h=el("div","listhead"); h.appendChild(el("b",null,title));
+    h.appendChild(el("span",null,right)); into.appendChild(h);
+    var b=el("div","thread"); into.appendChild(b); return b;
   }
 
+  function convHead(into,c){
+    var h=el("div","conv");
+    var av=el("div","av"+(c.ring?" ring":"")+(c.fb?" fbc":""));
+    if(c.ring){ var inner=el("i",null,c.ini); av.appendChild(inner); } else { av.textContent=c.ini; }
+    h.appendChild(av);
+    h.appendChild(el("div","nm",c.name));
+    if(c.live){
+      var s=el("div","sub"); var lv=el("span","lv");
+      lv.appendChild(el("span","dot")); lv.appendChild(el("span",null,c.sub));
+      s.appendChild(lv); h.appendChild(s);
+    } else { h.appendChild(el("div","sub",c.sub)); }
+    into.appendChild(h);
+    var b=el("div","thread"); into.appendChild(b); return b;
+  }
+
+  function composer(into,ph){
+    var c=el("div","composer");
+    c.appendChild(el("div","field",ph));
+    c.appendChild(el("div","send","↑"));
+    into.appendChild(c);
+    var hb=el("div","homebar"); hb.appendChild(el("i")); into.appendChild(hb);
+  }
+  function homeOnly(into){ var hb=el("div","homebar"); hb.appendChild(el("i")); into.appendChild(hb); }
+
   function buildLog(s){
-    p1.className="panel"; p1.innerHTML="";
-    var b=head(p1,s.log.head);
+    p1.innerHTML="";
+    var b=listHead(p1,s.log.title,s.log.right);
     s.log.rows.forEach(function(r,i){
       var row=el("div","callrow"); row.style.animationDelay=(i*.13)+"s";
-      var ic=el("div","callicon","↙");
-      var w=el("div","who"); w.appendChild(el("b",null,r[0])); w.appendChild(el("span",null,r[1]));
-      row.appendChild(ic);row.appendChild(w);row.appendChild(el("span","when",r[2]));
+      row.appendChild(el("div","ci","↙"));
+      var w=el("div","w"); w.appendChild(el("b",null,r[0])); w.appendChild(el("span",null,r[1]));
+      row.appendChild(w); row.appendChild(el("span","tm",r[2]));
       b.appendChild(row);
     });
-    b.appendChild(el("div","missedbanner",s.log.banner));
+    b.appendChild(el("div","caption",s.log.caption));
+    homeOnly(p1);
   }
+
   function buildLeads(s){
-    p1.className="panel"; p1.innerHTML="";
-    var b=head(p1,s.leads.head);
+    p1.innerHTML="";
+    var b=listHead(p1,s.leads.title,s.leads.right);
     s.leads.rows.forEach(function(r,i){
       var row=el("div","lead"); row.style.animationDelay=(i*.1)+"s";
       row.appendChild(el("div","ini",r[0]));
-      var w=el("div","l-w"); w.appendChild(el("b",null,r[1])); w.appendChild(el("span",null,r[2]));
+      var w=el("div","lw"); w.appendChild(el("b",null,r[1])); w.appendChild(el("span",null,r[2]));
       row.appendChild(w); row.appendChild(el("span","due",r[3]));
       b.appendChild(row);
     });
-    b.appendChild(el("div","missedbanner",s.leads.banner));
+    b.appendChild(el("div","caption",s.leads.caption));
+    homeOnly(p1);
   }
 
   function run(key){
     clear(); cur=key;
     var s=S[key];
     document.getElementById("clock").textContent=s.clock;
-    document.getElementById("carrier").textContent=s.carrier;
-    document.querySelectorAll("#tabs .tab").forEach(function(t){t.setAttribute("aria-selected",String(t.dataset.k===key));});
+    screen.setAttribute("data-app", s.first==="app" ? "app" : s.app);
+    document.querySelectorAll("#tabs .tab").forEach(function(t){
+      t.setAttribute("aria-selected", String(t.dataset.k===key));
+    });
 
-    var hasFirst = !!(s.log||s.leads);
-    p2.className="panel in-right"; p2.innerHTML="";
-    if(s.log) buildLog(s); else if(s.leads) buildLeads(s); else { p1.className="panel"; p1.innerHTML=""; }
+    var hasFirst=!!(s.log||s.leads);
+    p1.className="panel"; p2.className="panel in-right"; p2.innerHTML="";
+    if(s.log) buildLog(s); else if(s.leads) buildLeads(s); else p1.innerHTML="";
 
     var thread = hasFirst ? p2 : p1;
-    var start  = hasFirst ? 1500 : 200;
+    var start  = hasFirst ? 1900 : 250;
 
     at(function(){
-      if(hasFirst){ p1.className="panel out-left"; p2.className="panel"; }
-      var body=head(thread,s.head,s.app);
+      if(hasFirst){
+        screen.setAttribute("data-app", s.convApp || s.app);
+        p1.className="panel out-left"; p2.className="panel";
+      }
+      var body=convHead(thread,s.conv);
+      composer(thread,s.placeholder);
       var t=0;
       s.steps.forEach(function(st){
-        t += st.k==="typing"?900:(st.k==="sys"?600:1150);
+        t += st.k==="typing" ? 950 : (st.k==="sys" ? 650 : 1200);
         at(function(){
           if(st.k==="typing"){
-            var r=el("div","row them"); var ty=el("div","typing");
-            ty.appendChild(el("i"));ty.appendChild(el("i"));ty.appendChild(el("i"));
-            r.appendChild(ty); r.id="ty"; body.appendChild(r);
-            at(function(){var n=document.getElementById("ty"); if(n)n.remove();},850);
-            return;
-          }
-          if(st.k==="sys"){ body.appendChild(el("div","sysline",st.x)); return; }
-          if(st.k==="booked"||st.k==="tally"){
-            var box=el("div",st.k==="booked"?"booked":"tally");
+            var r=el("div","row them"); r.id="ty";
+            var ty=el("div","typing"); ty.appendChild(el("i"));ty.appendChild(el("i"));ty.appendChild(el("i"));
+            r.appendChild(ty); body.appendChild(r);
+            at(function(){var n=document.getElementById("ty"); if(n)n.remove();},900);
+          } else if(st.k==="sys"){
+            body.appendChild(el("div","sysline",st.x));
+          } else if(st.k==="booked"||st.k==="tally"){
+            var box=el("div",st.k);
             box.appendChild(el("b",null,st.b)); box.appendChild(el("span",null,st.x));
-            body.appendChild(box); return;
+            body.appendChild(box);
+          } else {
+            var row=el("div","row "+(st.k==="me"?"me":"them"));
+            row.appendChild(el("div","bubble",st.x));
+            if(st.meta) row.appendChild(el("div","meta",st.meta));
+            body.appendChild(row);
           }
-          var row=el("div","row "+(st.k==="me"?"me":"them"));
-          row.appendChild(el("div","bubble",st.x));
-          if(st.meta) row.appendChild(el("div","meta",st.meta));
-          body.appendChild(row);
           body.scrollTop=body.scrollHeight;
         },t);
       });
@@ -473,7 +571,9 @@
     tabs.appendChild(b);
   });
   document.getElementById("replay").onclick=function(){run(cur);};
-  document.getElementById("book").onclick=function(e){e.preventDefault();alert("Booking link goes here once the calendar is connected.");};
+  document.getElementById("book").onclick=function(e){
+    e.preventDefault(); alert("Booking link goes here once the calendar is connected.");
+  };
   run("call");
 })();
 </script>
