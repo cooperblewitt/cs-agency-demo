@@ -74,6 +74,38 @@
   @media(min-width:1000px){.hero-grid{grid-template-columns:1fr 372px;}}
   .kicker{font-family:var(--font-m);font-size:12.5px;color:var(--ink-3);margin-top:20px;}
 
+  /* The night shift: fills the gap beside the phone and lights up on scroll. */
+  .shift{margin-top:38px;position:relative;padding-left:32px;}
+  .shift::before{content:"";position:absolute;left:6px;top:10px;bottom:10px;width:2px;
+                 background:var(--edge-2);border-radius:2px;}
+  .shift .fill{position:absolute;left:6px;top:10px;width:2px;height:0;border-radius:2px;
+               background:linear-gradient(180deg,var(--amber),var(--violet));
+               box-shadow:0 0 12px rgba(245,165,36,.45);transition:height .2s linear;}
+  .shift .eye{margin-bottom:14px;}
+  .sh{position:relative;display:flex;gap:14px;padding:8px 0;opacity:.4;
+      transition:opacity .45s ease;}
+  .sh::before{content:"";position:absolute;left:-32px;top:13px;width:14px;height:14px;
+              border-radius:50%;background:var(--void);border:2px solid var(--edge-2);
+              transition:border-color .45s ease,box-shadow .45s ease,background .45s ease;}
+  .sh.on{opacity:1;}
+  .sh.on::before{border-color:var(--amber);background:var(--amber);
+                 box-shadow:0 0 12px rgba(245,165,36,.65);}
+  .sh.last.on::before{border-color:var(--violet);background:var(--violet);
+                      box-shadow:0 0 14px rgba(139,92,246,.7);}
+  .sh .t{font-family:var(--font-m);font-size:11.5px;color:var(--ink-3);width:62px;flex:none;
+         padding-top:3px;transition:color .45s ease;}
+  .sh.on .t{color:var(--amber);}
+  .sh.last.on .t{color:var(--violet-lt);}
+  .sh .x{font-size:15.5px;color:var(--ink-2);line-height:1.45;transition:color .45s ease;}
+  .sh.on .x{color:var(--ink);}
+  @media (prefers-reduced-motion:reduce){
+    .sh{opacity:1;} .shift .fill{display:none;}
+    .sh::before{border-color:var(--amber);background:var(--amber);}
+  }
+  /* One column on small screens, so there is no gap to fill and the phone
+     should not get pushed down the page. */
+  @media (max-width:999px){ .shift{display:none;} }
+
   /* ---------------- the device ---------------- */
   .tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;justify-content:center;}
   .tab{font-family:var(--font-b);font-size:13.5px;font-weight:600;padding:9px 14px;border-radius:10px;
@@ -339,6 +371,17 @@
         <a class="btn ghost" href="#guarantee">Our guarantee</a>
       </div>
       <p class="kicker">Missed calls &middot; Instagram &middot; Facebook &middot; Email &middot; Website &middot; Old customers</p>
+
+      <div class="shift" id="shift">
+        <p class="eye">One night, start to finish</p>
+        <span class="fill" id="shiftFill"></span>
+        <div class="sh"><span class="t">5:30 pm</span><span class="x">You lock up and go home.</span></div>
+        <div class="sh"><span class="t">6:42 pm</span><span class="x">Missed call. Texted back, booked for 8am.</span></div>
+        <div class="sh"><span class="t">9:14 pm</span><span class="x">Instagram message. Price given, quote booked.</span></div>
+        <div class="sh"><span class="t">11:40 pm</span><span class="x">Enquiry off the website. Answered, booked in.</span></div>
+        <div class="sh"><span class="t">7:00 am</span><span class="x">Reminders out to everyone booked in today.</span></div>
+        <div class="sh last"><span class="t">8:03 am</span><span class="x">You pick up your phone. Three jobs already in.</span></div>
+      </div>
     </div>
 
     <div>
@@ -775,6 +818,32 @@
     b.onclick=function(){run(k);};
     tabs.appendChild(b);
   });
+  // The night shift lights up as the page moves. Everything is readable before it does.
+  (function(){
+    var rail=document.getElementById("shift");
+    var fill=document.getElementById("shiftFill");
+    if(!rail||!fill) return;
+    var items=[].slice.call(rail.querySelectorAll(".sh"));
+    var queued=false;
+
+    function paint(){
+      queued=false;
+      var r=rail.getBoundingClientRect(), vh=window.innerHeight||800;
+      // 0 when the top of the rail sits low on the screen, 1 once it has travelled up past it
+      var p=(vh*0.78-r.top)/(r.height+vh*0.22);
+      p=p<0?0:p>1?1:p;
+      fill.style.height=(p*100)+"%";
+      items.forEach(function(el,i){
+        var at=(i+0.6)/items.length;
+        if(i===0||p>=at) el.classList.add("on"); else el.classList.remove("on");
+      });
+    }
+    function onScroll(){ if(!queued){ queued=true; requestAnimationFrame(paint); } }
+    window.addEventListener("scroll",onScroll,{passive:true});
+    window.addEventListener("resize",onScroll);
+    paint();
+  })();
+
   document.getElementById("replay").onclick=function(){run(cur);};
   document.getElementById("book").onclick=function(e){
     e.preventDefault(); alert("Booking link goes here once the calendar is connected.");
