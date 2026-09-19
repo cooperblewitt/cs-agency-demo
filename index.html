@@ -1008,11 +1008,16 @@
     var shown=-1, count=0, queued=false;
     function measure(){
       queued=false;
-      var vh=window.innerHeight||800;
-      // Measured from the top of the page, not from the panel, so the night always
-      // starts at dusk on arrival. The whole thing runs in about half a screen.
+      var vh=window.innerHeight||800, r=panel.getBoundingClientRect();
       var y=window.scrollY||document.documentElement.scrollTop||0;
-      target=clamp(y/(vh*0.52),0,1);
+      // Hold at dusk until the whole panel is on screen, bottom line included, so
+      // nobody scrolls past the first moments before they can read them. On a tall
+      // screen where it is already readable, that is simply the top of the page.
+      var readableAt = (r.top + y) - (vh*0.92 - r.height);
+      if(readableAt < 0) readableAt = 0;
+      // Fast, but never so fast a moment goes by before it can be read.
+      var runLen = vh*0.52; if(runLen < 470) runLen = 470;
+      target = clamp((y - readableAt)/runLen, 0, 1);
 
       var idx=Math.min(MOMENTS.length-1, Math.floor(target*MOMENTS.length*0.999));
       pipEls.forEach(function(el,i){ el.classList.toggle("on", i<=idx); });
