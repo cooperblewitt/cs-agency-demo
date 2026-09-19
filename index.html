@@ -264,6 +264,15 @@
   .stat span{font-size:14.5px;color:var(--ink-2);display:block;margin-top:9px;}
 
 
+  .mgmt{margin-top:18px;background:linear-gradient(135deg,rgba(139,92,246,.14),rgba(255,255,255,.015));
+        border:1px solid rgba(139,92,246,.34);border-radius:19px;padding:30px;}
+  .mgmt h3{font-size:clamp(21px,3vw,28px);margin:0 0 18px;letter-spacing:-.03em;}
+  .mgmt ul{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:13px;}
+  .mgmt li{font-size:15.5px;color:var(--ink-2);line-height:1.5;padding-left:20px;position:relative;}
+  .mgmt li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:50%;
+                   background:var(--amber);}
+  .mgmt li b{color:var(--ink);font-weight:600;}
+  .mgmt .note{margin:0;}
   .cta{background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(255,255,255,.015));
        border:1px solid rgba(139,92,246,.38);border-radius:22px;padding:52px 30px;text-align:center;}
   .cta p{max-width:50ch;margin:0 auto 24px;}
@@ -366,11 +375,23 @@
 
 <section class="rule">
   <div class="wrap">
-    <h2 class="say">Three weeks. <span class="glow">Then it just runs.</span></h2>
+    <h2 class="say">Three weeks to switch on. <span class="glow">Then we run it with you.</span></h2>
     <div class="grid g3" style="margin-top:32px">
-      <div class="card"><div class="n">WEEK ONE</div><h3>We listen</h3><p>What you do, what you charge, how you like to be booked, and what you will not take on. It only ever says what you would say.</p></div>
+      <div class="card"><div class="n">WEEK ONE</div><h3>We learn your business</h3><p>What you do, what you charge, how you like to be booked, and what you will not take on. It only ever says what you would say.</p></div>
       <div class="card"><div class="n">WEEK TWO</div><h3>Lights on</h3><p>Calls, DMs and website enquiries covered, day and night, weekends included. You approve every message before a single one goes out.</p></div>
-      <div class="card"><div class="n">WEEK THREE</div><h3>We open the old list</h3><p>Every past customer and client sorted by what they are due for. Then a number each month for exactly what the list brought back.</p></div>
+      <div class="card"><div class="n">WEEK THREE</div><h3>We open the old list</h3><p>Every past customer and client sorted by what they are due for, then worked through a batch at a time.</p></div>
+    </div>
+    <div class="mgmt">
+      <p class="eye" style="color:var(--violet-lt)">And every month after that</p>
+      <h3>This is not a box we install and walk away from.</h3>
+      <ul>
+        <li><b>We read the real conversations.</b> Every week. Anything that got answered badly gets fixed that week, not at the end of the year.</li>
+        <li><b>We rewrite what isn't landing.</b> Wording people ignore gets changed. A question that keeps coming up gets its own answer.</li>
+        <li><b>We keep it current.</b> New service, new price, a staff change, a week closed over Christmas. Tell us and it's in the same day.</li>
+        <li><b>We keep the old list moving.</b> A fresh batch goes out every month. It is never a one-off blast at setup.</li>
+        <li><b>You get a report.</b> What came in, what got booked, and what it was worth. In dollars, every month.</li>
+      </ul>
+      <p class="note">Left alone, a system like this quietly goes stale inside a few months and nobody notices until the bookings dry up. That is what you are paying us to stop.</p>
     </div>
   </div>
 </section>
