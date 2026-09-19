@@ -74,37 +74,60 @@
   @media(min-width:1000px){.hero-grid{grid-template-columns:1fr 372px;}}
   .kicker{font-family:var(--font-m);font-size:12.5px;color:var(--ink-3);margin-top:20px;}
 
-  /* The night shift: fills the gap beside the phone and lights up on scroll. */
-  .shift{margin-top:38px;position:relative;padding-left:32px;}
-  .shift::before{content:"";position:absolute;left:6px;top:10px;bottom:10px;width:2px;
-                 background:var(--edge-2);border-radius:2px;}
-  .shift .fill{position:absolute;left:6px;top:10px;width:2px;height:0;border-radius:2px;
-               background:linear-gradient(180deg,var(--amber),var(--violet));
-               box-shadow:0 0 12px rgba(245,165,36,.45);transition:height .2s linear;}
-  .shift .eye{margin-bottom:14px;}
-  .sh{position:relative;display:flex;gap:14px;padding:8px 0;opacity:.4;
-      transition:opacity .45s ease;}
-  .sh::before{content:"";position:absolute;left:-32px;top:13px;width:14px;height:14px;
-              border-radius:50%;background:var(--void);border:2px solid var(--edge-2);
-              transition:border-color .45s ease,box-shadow .45s ease,background .45s ease;}
-  .sh.on{opacity:1;}
-  .sh.on::before{border-color:var(--amber);background:var(--amber);
-                 box-shadow:0 0 12px rgba(245,165,36,.65);}
-  .sh.last.on::before{border-color:var(--violet);background:var(--violet);
-                      box-shadow:0 0 14px rgba(139,92,246,.7);}
-  .sh .t{font-family:var(--font-m);font-size:11.5px;color:var(--ink-3);width:62px;flex:none;
-         padding-top:3px;transition:color .45s ease;}
-  .sh.on .t{color:var(--amber);}
-  .sh.last.on .t{color:var(--violet-lt);}
-  .sh .x{font-size:15.5px;color:var(--ink-2);line-height:1.45;transition:color .45s ease;}
-  .sh.on .x{color:var(--ink);}
+  /* ---------------- the night ----------------
+     The sky turns from dusk to dawn as the page scrolls, the clock runs with it,
+     and the count of jobs climbs while nobody is awake. */
+  .night{margin-top:34px;position:relative;height:336px;border-radius:20px;overflow:hidden;
+         border:1px solid var(--edge);isolation:isolate;}
+  .sky{position:absolute;inset:0;z-index:0;transition:background .12s linear;}
+  .stars{position:absolute;inset:0 0 38% 0;z-index:1;opacity:0;transition:opacity .35s ease;}
+  .stars i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;
+           animation:tw 3.6s ease-in-out infinite;}
+  @keyframes tw{0%,100%{opacity:.25}50%{opacity:1}}
+  .horizon{position:absolute;left:-10%;right:-10%;bottom:-62%;height:120%;z-index:1;
+           border-radius:50%;transition:background .12s linear,opacity .25s linear;}
+
+  .night-in{position:relative;z-index:3;height:100%;display:flex;flex-direction:column;
+            padding:20px 22px;}
+  .night .eye{margin:0 0 auto;color:var(--violet-lt);}
+
+  .clock{display:flex;align-items:baseline;gap:9px;}
+  .clock b{font-family:var(--font-d);font-size:clamp(40px,6.4vw,58px);font-weight:800;
+           letter-spacing:-.045em;line-height:.9;color:#fff;font-variant-numeric:tabular-nums;
+           text-shadow:0 2px 28px rgba(0,0,0,.6);}
+  .clock i{font-family:var(--font-m);font-size:14px;font-style:normal;font-weight:600;
+           letter-spacing:.1em;color:rgba(255,255,255,.62);}
+  .beat{animation:beat .5s cubic-bezier(.2,.9,.3,1);}
+  @keyframes beat{0%{opacity:0;transform:translateY(12px) scale(.96);filter:blur(5px)}
+                  100%{opacity:1;transform:none;filter:none}}
+
+  .said{margin-top:10px;min-height:44px;font-size:16px;line-height:1.35;color:#fff;
+        max-width:30ch;text-shadow:0 1px 18px rgba(0,0,0,.75);}
+  .said.beat{animation:said .55s cubic-bezier(.2,.9,.3,1);}
+  @keyframes said{0%{opacity:0;transform:translateY(9px)}100%{opacity:1;transform:none}}
+
+  .pips{display:flex;gap:6px;margin-top:16px;}
+  .pips span{height:3px;flex:1;border-radius:2px;background:rgba(255,255,255,.18);
+             transition:background .4s ease,box-shadow .4s ease;}
+  .pips span.on{background:var(--amber);box-shadow:0 0 10px rgba(245,165,36,.75);}
+
+  .booked-n{margin-top:16px;display:flex;align-items:flex-end;gap:11px;
+            border-top:1px solid rgba(255,255,255,.14);padding-top:14px;}
+  .booked-n b{font-family:var(--font-d);font-size:44px;font-weight:800;line-height:.85;
+              letter-spacing:-.05em;color:var(--amber);font-variant-numeric:tabular-nums;
+              text-shadow:0 0 26px rgba(245,165,36,.45);}
+  .booked-n b.pop{animation:pop .55s cubic-bezier(.2,1.5,.4,1);}
+  @keyframes pop{0%{transform:scale(.55);opacity:.2}60%{transform:scale(1.14)}100%{transform:none}}
+  .booked-n span{font-family:var(--font-m);font-size:11px;letter-spacing:.16em;
+                 text-transform:uppercase;color:rgba(255,255,255,.6);padding-bottom:5px;
+                 line-height:1.45;}
+
   @media (prefers-reduced-motion:reduce){
-    .sh{opacity:1;} .shift .fill{display:none;}
-    .sh::before{border-color:var(--amber);background:var(--amber);}
+    .stars i{animation:none;opacity:.7;}
+    .beat,.pop,.said.beat{animation:none;}
   }
-  /* One column on small screens, so there is no gap to fill and the phone
-     should not get pushed down the page. */
-  @media (max-width:999px){ .shift{display:none;} }
+  /* One column on small screens: no gap to fill, and it would push the phone down. */
+  @media (max-width:999px){ .night{display:none;} }
 
   /* ---------------- the device ---------------- */
   .tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;justify-content:center;}
@@ -372,15 +395,20 @@
       </div>
       <p class="kicker">Missed calls &middot; Instagram &middot; Facebook &middot; Email &middot; Website &middot; Old customers</p>
 
-      <div class="shift" id="shift">
-        <p class="eye">One night, start to finish</p>
-        <span class="fill" id="shiftFill"></span>
-        <div class="sh"><span class="t">5:30 pm</span><span class="x">You lock up and go home.</span></div>
-        <div class="sh"><span class="t">6:42 pm</span><span class="x">Missed call. Texted back, booked for 8am.</span></div>
-        <div class="sh"><span class="t">9:14 pm</span><span class="x">Instagram message. Price given, quote booked.</span></div>
-        <div class="sh"><span class="t">11:40 pm</span><span class="x">Enquiry off the website. Answered, booked in.</span></div>
-        <div class="sh"><span class="t">7:00 am</span><span class="x">Reminders out to everyone booked in today.</span></div>
-        <div class="sh last"><span class="t">8:03 am</span><span class="x">You pick up your phone. Three jobs already in.</span></div>
+      <div class="night" id="night">
+        <span class="sky" id="sky"></span>
+        <span class="stars" id="stars"></span>
+        <span class="horizon" id="horizon"></span>
+        <div class="night-in">
+          <p class="eye">5pm to 7am, one night</p>
+          <div class="clock"><b id="clockT">5:00</b><i id="clockM">PM</i></div>
+          <p class="said" id="said">You knock off and head home.</p>
+          <div class="pips" id="pips"></div>
+          <div class="booked-n">
+            <b id="bookedN">0</b>
+            <span>Jobs booked<br>while you were out</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -818,26 +846,93 @@
     b.onclick=function(){run(k);};
     tabs.appendChild(b);
   });
-  // The night shift lights up as the page moves. Everything is readable before it does.
+  // ---- the night ------------------------------------------------------------
+  // Scroll runs the clock from knock-off to the next morning. The sky turns with
+  // it, the stars come out and fade, and the job count climbs while nobody is up.
   (function(){
-    var rail=document.getElementById("shift");
-    var fill=document.getElementById("shiftFill");
-    if(!rail||!fill) return;
-    var items=[].slice.call(rail.querySelectorAll(".sh"));
-    var queued=false;
+    var panel=document.getElementById("night");
+    if(!panel) return;
+
+    var MOMENTS=[
+      {t:"5:00",  m:"PM", x:"You knock off and head home.",                      n:0},
+      {t:"6:42",  m:"PM", x:"Missed call. Texted back, booked for 8am.",         n:1},
+      {t:"9:14",  m:"PM", x:"Instagram message. Price given, quote booked.",     n:2},
+      {t:"11:40", m:"PM", x:"Enquiry off the website. Answered and booked in.",  n:3},
+      {t:"6:30",  m:"AM", x:"Reminders out to everyone booked in today.",        n:3},
+      {t:"7:00",  m:"AM", x:"You pick up your phone. Three jobs already in.",    n:3}
+    ];
+
+    // dusk, deep night, first light
+    var SKY=[
+      {top:[27,20,48],  base:[58,36,24],  glow:[245,165,36], glowA:0.55, star:0.00},
+      {top:[7,6,13],    base:[11,10,22],  glow:[139,92,246], glowA:0.20, star:1.00},
+      {top:[18,23,46],  base:[46,36,24],  glow:[245,180,90], glowA:0.50, star:0.15}
+    ];
+
+    var sky=document.getElementById("sky"),
+        stars=document.getElementById("stars"),
+        horizon=document.getElementById("horizon"),
+        clockT=document.getElementById("clockT"),
+        clockM=document.getElementById("clockM"),
+        said=document.getElementById("said"),
+        pips=document.getElementById("pips"),
+        bookedN=document.getElementById("bookedN");
+
+    // a fixed star field, scattered once
+    var seed=7, html="";
+    function rnd(){ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; }
+    for(var i=0;i<58;i++){
+      var d=(rnd()*3.4).toFixed(2);
+      html+='<i style="left:'+(rnd()*100).toFixed(1)+'%;top:'+(rnd()*100).toFixed(1)+
+            '%;animation-delay:'+d+'s;opacity:'+(0.35+rnd()*0.65).toFixed(2)+'"></i>';
+    }
+    stars.innerHTML=html;
+
+    MOMENTS.forEach(function(){ pips.appendChild(document.createElement("span")); });
+    var pipEls=[].slice.call(pips.children);
+
+    function mix(a,b,t){ return [0,1,2].map(function(i){ return Math.round(a[i]+(b[i]-a[i])*t); }); }
+    function rgb(c,alpha){ return "rgba("+c[0]+","+c[1]+","+c[2]+","+(alpha==null?1:alpha)+")"; }
+
+    var shown=-1, count=0, queued=false;
 
     function paint(){
       queued=false;
-      var r=rail.getBoundingClientRect(), vh=window.innerHeight||800;
-      // 0 when the top of the rail sits low on the screen, 1 once it has travelled up past it
-      var p=(vh*0.78-r.top)/(r.height+vh*0.22);
+      var r=panel.getBoundingClientRect(), vh=window.innerHeight||800;
+      var p=(vh*0.74-r.top)/(r.height+vh*0.34);
       p=p<0?0:p>1?1:p;
-      fill.style.height=(p*100)+"%";
-      items.forEach(function(el,i){
-        var at=(i+0.6)/items.length;
-        if(i===0||p>=at) el.classList.add("on"); else el.classList.remove("on");
-      });
+
+      // sky: dusk -> night -> dawn
+      var half=p<0.5, t=half?p/0.5:(p-0.5)/0.5;
+      var A=SKY[half?0:1], B=SKY[half?1:2];
+      var top=mix(A.top,B.top,t), base=mix(A.base,B.base,t), glow=mix(A.glow,B.glow,t);
+      var glowA=A.glowA+(B.glowA-A.glowA)*t, starA=A.star+(B.star-A.star)*t;
+
+      sky.style.background="linear-gradient(180deg,"+rgb(top)+" 0%,"+rgb(base)+" 100%)";
+      horizon.style.background="radial-gradient(ellipse at 50% 100%,"+rgb(glow,glowA)+
+                               " 0%,"+rgb(glow,glowA*0.35)+" 35%,transparent 68%)";
+      stars.style.opacity=starA.toFixed(2);
+
+      // which moment we are at
+      var idx=Math.min(MOMENTS.length-1, Math.floor(p*MOMENTS.length*0.999));
+      pipEls.forEach(function(el,i){ el.classList.toggle("on", i<=idx); });
+
+      if(idx!==shown){
+        shown=idx;
+        var mo=MOMENTS[idx];
+        clockT.textContent=mo.t; clockM.textContent=mo.m;
+        said.textContent=mo.x;
+        clockT.classList.remove("beat"); said.classList.remove("beat");
+        void clockT.offsetWidth;
+        clockT.classList.add("beat"); said.classList.add("beat");
+        if(mo.n!==count){
+          count=mo.n;
+          bookedN.textContent=String(count);
+          bookedN.classList.remove("pop"); void bookedN.offsetWidth; bookedN.classList.add("pop");
+        }
+      }
     }
+
     function onScroll(){ if(!queued){ queued=true; requestAnimationFrame(paint); } }
     window.addEventListener("scroll",onScroll,{passive:true});
     window.addEventListener("resize",onScroll);
