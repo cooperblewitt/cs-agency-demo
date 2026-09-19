@@ -1010,14 +1010,21 @@
       queued=false;
       var vh=window.innerHeight||800, r=panel.getBoundingClientRect();
       var y=window.scrollY||document.documentElement.scrollTop||0;
-      // Hold at dusk until the whole panel is on screen, bottom line included, so
+      var topInPage = r.top + y, H = r.height;
+
+      // Dusk holds until the whole panel is on screen, bottom line included, so
       // nobody scrolls past the first moments before they can read them. On a tall
-      // screen where it is already readable, that is simply the top of the page.
-      var readableAt = (r.top + y) - (vh*0.92 - r.height);
-      if(readableAt < 0) readableAt = 0;
-      // Fast, but never so fast a moment goes by before it can be read.
-      var runLen = vh*0.52; if(runLen < 470) runLen = 470;
-      target = clamp((y - readableAt)/runLen, 0, 1);
+      // screen where it is already readable, that is the top of the page.
+      var from = topInPage - (vh*0.92 - H);
+      if(from < 0) from = 0;
+
+      // Dawn lands while two thirds of the panel is still on screen, so the night
+      // always finishes before it scrolls away.
+      var to = topInPage + H*0.35;
+
+      var runLen = to - from;
+      if(runLen < 260) runLen = 260;   // a floor, for very short screens
+      target = clamp((y - from)/runLen, 0, 1);
 
       var idx=Math.min(MOMENTS.length-1, Math.floor(target*MOMENTS.length*0.999));
       pipEls.forEach(function(el,i){ el.classList.toggle("on", i<=idx); });
