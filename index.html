@@ -70,15 +70,22 @@
   .hero::before{content:"";position:absolute;top:-180px;left:50%;transform:translateX(-50%);
     width:900px;height:460px;background:radial-gradient(ellipse at center,rgba(139,92,246,.18),transparent 65%);
     pointer-events:none;}
-  .hero-grid{display:grid;gap:52px;align-items:start;position:relative;}
-  @media(min-width:1000px){.hero-grid{grid-template-columns:1fr 372px;}}
+  .hero-grid{display:grid;gap:44px;align-items:start;position:relative;}
+  @media(min-width:1000px){
+    .hero-grid{grid-template-columns:1fr 372px;column-gap:52px;row-gap:34px;}
+    .copy{grid-column:1;grid-row:1;}
+    .devicecol{grid-column:2;grid-row:1 / span 2;}
+    .nightcol{grid-column:1;grid-row:2;}
+  }
   .kicker{font-family:var(--font-m);font-size:12.5px;color:var(--ink-3);margin-top:20px;}
 
   /* ---------------- the street ----------------
      A dark street drawn on canvas. The sun drops behind the rooftops, the stars
      come out, and one house lights up for every job booked while they sleep. */
-  .night{margin-top:34px;position:relative;height:372px;border-radius:20px;overflow:hidden;
+  .night{position:relative;height:330px;border-radius:20px;overflow:hidden;
          border:1px solid var(--edge);isolation:isolate;background:#05050C;}
+  @media(min-width:1000px){ .night{height:372px;} }
+  @media(min-width:760px){ .screen{height:648px;} }
   .night canvas{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0;}
   .scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
          background:linear-gradient(170deg,rgba(0,0,0,.62) 0%,rgba(0,0,0,.30) 42%,
@@ -116,8 +123,13 @@
              transition:background .4s ease,box-shadow .4s ease;}
   .pips span.on{background:var(--amber);box-shadow:0 0 10px rgba(245,165,36,.8);}
 
-  /* One column on small screens: no gap to fill, and it would push the phone down. */
-  @media (max-width:999px){ .night{display:none;} }
+  /* Tighter inside the panel on a narrow screen. */
+  @media (max-width:520px){
+    .night-in{padding:16px 16px 14px;}
+    .clock b{font-size:38px;}
+    .tally2 b{font-size:28px;}
+    .said{font-size:15px;min-height:78px;max-width:none;line-height:1.3;}
+  }
 
   /* ---------------- the device ---------------- */
   .tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;justify-content:center;}
@@ -126,10 +138,10 @@
   .tab[aria-selected="true"]{background:rgba(139,92,246,.18);border-color:var(--violet);color:#fff;}
 
   /* the handset */
-  .iphone{width:min(336px,100%);margin:0 auto;background:#0a0a0a;border-radius:54px;padding:12px;
+  .iphone{width:min(336px,100%);margin:0 auto;background:#0a0a0a;border-radius:54px;padding:11px;
           border:1px solid #2b2b2f;
           box-shadow:0 50px 100px -34px rgba(0,0,0,.95),0 0 0 2px rgba(255,255,255,.05) inset;}
-  .screen{border-radius:43px;overflow:hidden;height:648px;position:relative;
+  .screen{border-radius:43px;overflow:hidden;height:558px;position:relative;
           background:var(--sc-bg);transition:background .35s;}
   /* per-app colour sets: each channel renders in its own real chrome */
   .screen{--sc-bg:#fff;--sc-head:#F7F7F8;--sc-line:#DEDEE3;--sc-ink:#000;--sc-sub:#8A8A8E;
@@ -375,7 +387,7 @@
 
 <header class="hero">
   <div class="wrap hero-grid">
-    <div>
+    <div class="copy">
       <p class="eye">For any business that books people in</p>
       <h1>You knock off.<br><span class="glow">It doesn't.</span></h1>
       <p class="lede">Every call, message and enquiry you miss, answered in under a minute in your words, and booked into your calendar before you pick your phone back up.</p>
@@ -385,22 +397,10 @@
       </div>
       <p class="kicker">Missed calls &middot; Instagram &middot; Facebook &middot; Email &middot; Website &middot; Old customers</p>
 
-      <div class="night" id="night">
-        <canvas id="street" aria-hidden="true"></canvas>
-        <span class="scrim"></span>
-        <div class="night-in">
-          <p class="eye">5pm to 7am, one night</p>
-          <div class="row1">
-            <div class="clock"><b id="clockT">5:00</b><i id="clockM">PM</i></div>
-            <div class="tally2"><b id="bookedN">0</b><span>Booked<br>while you slept</span></div>
-          </div>
-          <p class="said" id="said">You knock off and head home.</p>
-          <div class="pips" id="pips"></div>
-        </div>
-      </div>
+
     </div>
 
-    <div>
+    <div class="devicecol">
       <div class="tabs" role="tablist" id="tabs"></div>
       <div class="iphone">
         <div class="screen" id="screen" data-app="sms">
@@ -434,6 +434,22 @@
       <div class="under">
         <button class="btn ghost sm" id="replay" type="button">Play again</button>
         <small>Example conversations. Not real customers.</small>
+      </div>
+    </div>
+
+    <div class="nightcol">
+      <div class="night" id="night">
+        <canvas id="street" aria-hidden="true"></canvas>
+        <span class="scrim"></span>
+        <div class="night-in">
+          <p class="eye">5pm to 7am, one night</p>
+          <div class="row1">
+            <div class="clock"><b id="clockT">5:00</b><i id="clockM">PM</i></div>
+            <div class="tally2"><b id="bookedN">0</b><span>Booked<br>while you slept</span></div>
+          </div>
+          <p class="said" id="said">You knock off and head home.</p>
+          <div class="pips" id="pips"></div>
+        </div>
       </div>
     </div>
   </div>
